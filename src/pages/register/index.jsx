@@ -1,6 +1,6 @@
 import React from "react";
 // import Nav from "../../components/navbar/navbar";
-import Regist from "../../components/user/regist";
+import Regist from "../../components/auth/regist";
 // import Card from "./components/card/card.jsx";
 // import Footer from "../../components/footer/footer.jsx";
 import Link from "@mui/material/Link";

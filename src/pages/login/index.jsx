@@ -1,5 +1,5 @@
 import React from "react";
-import LoginContainer from "../../components/user/login";
+import LoginContainer from "../../components/auth/login";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 
