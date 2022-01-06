@@ -54,9 +54,11 @@ export default function Homepage() {
     <>
       {/* <ThemeProvider theme={darkTheme}> */}
       <Navbar />
-      <Container variant='home'>
-        <Hero />
-      </Container>
+      <div style={{ backgroundColor: "#0D5C8C" }}>
+        <Container variant='home'>
+          <Hero />
+        </Container>
+      </div>
       {/* </ThemeProvider> */}
     </>
   );

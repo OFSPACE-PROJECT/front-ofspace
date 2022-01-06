@@ -8,6 +8,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 const Hero = () => {
   const [type, setType] = useState("");
@@ -18,16 +20,29 @@ const Hero = () => {
   return (
     <div>
       <Container
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
         style={{
-          marginTop: "50px",
+          paddingTop: "50px",
+          height: "50vh",
         }}
       >
-        <Grid container spacing={3}>
+        <Typography variant='h4' color='white' align='center'>
+          FIND YOUR BEST OFFICE AND COWORKING SPACE
+        </Typography>
+        <Grid
+          container
+          spacing={3}
+          sx={{ m: 2 }}
+          alignItems='center'
+          justifyContent='center'
+        >
           <Grid item xs>
             <FormControl fullWidth>
               <InputLabel
                 id='demo-simple-select-label'
-                style={{ color: "#000" }}
+                // style={{ color: "#000" }}
               >
                 Type
               </InputLabel>
@@ -37,7 +52,7 @@ const Hero = () => {
                 value={type}
                 label='type'
                 onChange={handleChange}
-                style={{ color: "#000" }}
+                // style={{ color: "#000" }}
               >
                 <MenuItem value={"office"}>Office</MenuItem>
                 <MenuItem value={"coworking-space"}>Coworking Space</MenuItem>
@@ -45,12 +60,21 @@ const Hero = () => {
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <TextField label='Search Building' style={{ color: "#000" }} />
+            <FormControl fullWidth>
+              <TextField
+                label='Search Building'
+                // style={{ color: "#000", width: "100%" }}
+                fullWidth
+              />
+            </FormControl>
           </Grid>
           <Grid item xs>
-            Item 3
+            <Button variant='contained'>Filter</Button>
           </Grid>
         </Grid>
+        <Box textAlign='center'>
+          <Button variant='contained'>Search</Button>
+        </Box>
       </Container>
     </div>
   );
