@@ -2,11 +2,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import RegisterBuilding from "./components/building/registerBuilding";
+
 
 const darkTheme = createTheme({
   components: {
     Container: {
-      variants: [
+     variants: [
         {
           props: { variant: "login" },
           style: {
@@ -24,6 +26,13 @@ const darkTheme = createTheme({
       ],
     },
   },
+  // typography: {
+  //   fontFamily
+  //   fontWeightLight
+  //   fontWeightRegular
+  //   fontWeightMedium
+  //   fontWeightBold
+  // }
   palette: {
     mode: "dark",
     primary: {
@@ -49,6 +58,7 @@ const darkTheme = createTheme({
       main: "#95150c",
       dark: "#f44336",
     },
+
   },
 });
 
@@ -60,6 +70,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/building" element={<RegisterBuilding />} />
           </Routes>
         </div>
       </Router>
