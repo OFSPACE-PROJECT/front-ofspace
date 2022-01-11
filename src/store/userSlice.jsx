@@ -25,6 +25,7 @@ const userSlice = createSlice({
       state.name = "";
       state.id = "";
       state.role = "";
+      state.status = "";
     },
   },
 });
