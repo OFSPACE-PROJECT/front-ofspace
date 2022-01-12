@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import User from "./pages/user/customer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import PrivateRoute from "./route/private";
+import Profile from "./components/user/profil";
 
 const darkTheme = createTheme({
   components: {
@@ -60,6 +63,13 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/user" element={<PrivateRoute />}>
+              <Route path="" element={<User />}>
+                <Route index element={<Profile />} />
+                <Route path="booking" element={<Profile />} />
+                <Route path="setting" element={<Profile />} />
+              </Route>
+            </Route>
           </Routes>
         </div>
       </Router>
