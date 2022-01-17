@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {Logout} from "@mui/icons-material";
+import SidebarDashboard from "./components/supervisor/sidebar";
+import DashboardSupervisor from "./pages/dashboard/dashboardSupervisor";
 
 const darkTheme = createTheme({
   components: {
@@ -58,8 +61,11 @@ function App() {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/dashboard/*" element={<DashboardSupervisor />}  />
+            {/*<Route path="/dashboard2" element={<DashboardSupervisor />}  />*/}
+            {/*<Route path="/dashboard/:overview" element={<DashboardSupervisor />}  />*/}
           </Routes>
         </div>
       </Router>
