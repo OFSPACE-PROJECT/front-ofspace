@@ -37,16 +37,16 @@ export default function Chat() {
   const [param, setParam] = useState({});
   const { InsertMessage  } = useInsertMessage();
   const { allChat, errorAllChat, loadingAllChat } = useSubscriptionChat(param);
-  // useEffect(() => {
-    // if (user) {
+  useEffect(() => {
+    if (user) {
       if (user.role === "customer") {
-        setParam({ "customer_id": { "_eq": user.id } });
+        setParam({ customer_id: { _eq: user.id } });
       } else {
-        setParam({ "consultan_id": { "_eq": user.id } });
+        setParam({ consultan_id: { _eq: user.id } });
       }
       console.log(param);
-    // }
-  // }, [user]);
+    }
+  }, [user]);
   console.log(param);
 
   console.log(allChat)
