@@ -49,12 +49,12 @@ function SidebarDashboard(props) {
 					</ListItemIcon>
 					<ListItemText primary="Sales Overview" />
 				</ListItem>
-				<ListItem button key="Complex Overview" onClick={() => history('/dashboard/complexOverview')}>
-					<ListItemIcon>
-						<DonutLargeIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Complex Overview" />
-				</ListItem>
+				{/*<ListItem button key="Complex Overview" onClick={() => history('/dashboard/complexOverview')}>*/}
+				{/*	<ListItemIcon>*/}
+				{/*		<DonutLargeIcon/>*/}
+				{/*	</ListItemIcon>*/}
+				{/*	<ListItemText primary="Complex Overview" />*/}
+				{/*</ListItem>*/}
 				<ListItem button key="Building Overview" onClick={() => history('/dashboard/buildingOverview')}>
 					<ListItemIcon>
 						<LocationCityIcon/>
