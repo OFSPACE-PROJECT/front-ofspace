@@ -22,6 +22,8 @@ const httpLink = new HttpLink({
   uri: "wss://kmxalterra.hasura.app/v1/graphql",
   options: {
     reconnect: true,
+    lazy: true,
+    inactivityTimeout: 30000,
     connectionParams: {
       headers: {
         "x-hasura-admin-secret":
