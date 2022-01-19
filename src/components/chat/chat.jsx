@@ -49,7 +49,6 @@ export default function Chat(data) {
         padding: (5, 5, 5, 5),
       }}
     >
-      
       {data?.chat?.length === 0 && (
         <Box
           sx={{
@@ -68,36 +67,39 @@ export default function Chat(data) {
           </Typography>
         </Box>
       )}
-      <Box sx={{ overflow: 'auto', height: "80vh" }}>
-        {allMessage?.ofspace_message.map((message) => (
-          <Message data={message} key={message.id} />
-        ))}
-      </Box>
-      <Box
-        sx={{
-          borderRadius: "25px",
-          display: "flex",
-          color: "black",
-          width: "100%",
-          justifyContent: "space-between",
-        }}
-      >
-        <InputBase
-          // sx={{ ml: 1, flex: 1 }}
-          value={value}
-          onChange={onChange}
-          placeholder="Enter a message"
-          sx={{ color: "black" }}
-        />
-        <IconButton
-          onClick={onClick}
-          type="button"
-          sx={{ p: "10px", color: "black" }}
-          aria-label="search"
-        >
-          <SendIcon />
-        </IconButton>
-      </Box>
+      {data?.chat?.length !== 0 && (
+        <div>
+          <Box sx={{ overflow: "auto", height: "80vh" }}>
+            {allMessage?.ofspace_message.map((message) => (
+              <Message data={message} key={message.id} />
+            ))}
+          </Box>
+          <Box
+            sx={{
+              borderRadius: "25px",
+              display: "flex",
+              color: "black",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <InputBase
+              value={value}
+              onChange={onChange}
+              placeholder="Enter a message"
+              sx={{ color: "black" }}
+            />
+            <IconButton
+              onClick={onClick}
+              type="button"
+              sx={{ p: "10px", color: "black" }}
+              aria-label="search"
+            >
+              <SendIcon />
+            </IconButton>
+          </Box>
+        </div>
+      )}
     </Container>
   );
 }
