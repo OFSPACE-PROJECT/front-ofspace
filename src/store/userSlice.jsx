@@ -7,7 +7,8 @@ const userSlice = createSlice({
     name: "",
     id: "",
     role : "",
-    status : ""
+    status : "",
+    token : ""
   },
   reducers: {
     login: (state, action) => {
@@ -15,17 +16,21 @@ const userSlice = createSlice({
       console.log(userData);
       state.isLogin = true;
       state.name = userData.name;
-      state.id = userData.id;
-      state.role = userData.role;
-      state.status = userData.status;
-      console.log(state);
+      state.id = 1;
+      state.role = "customer";
+      state.status = "approved"
+      state.token = userData.token;
+      // console.log(state);
     },
     logout: (state) => {
+      console.log(state);
       state.isLogin = false;
       state.name = "";
       state.id = "";
       state.role = "";
       state.status = "";
+      state.token = "";
+
     },
   },
 });

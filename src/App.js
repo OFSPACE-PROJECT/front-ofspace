@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PrivateRoute from "./route/private";
@@ -71,6 +72,7 @@ function App() {
               </Route>
             </Route>
           </Routes>
+          <Chat />
         </div>
       </Router>
     </ThemeProvider>
