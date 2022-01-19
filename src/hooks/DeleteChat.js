@@ -1,5 +1,4 @@
 import { useMutation } from "@apollo/client";
-import { GetAllMovie } from "../graphql/query";
 import { deleteChat } from "../graphql/mutation";
 
 export function useDeleteMovie() {

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import Chat from "./components/chat/chat";
+import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PrivateRoute from "./route/private";
@@ -62,7 +62,7 @@ function App() {
       <Router>
         <div className="App">
           <Routes>
-          <Route path="/" element={<Chat />} />
+          {/* <Route path="/" element={<Chat />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user" element={<PrivateRoute />}>
@@ -73,6 +73,7 @@ function App() {
               </Route>
             </Route>
           </Routes>
+          <Chat />
         </div>
       </Router>
     </ThemeProvider>
