@@ -24,7 +24,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.user.isLogin);
+  const isLogin = useSelector((state) => state.persistedReducer.user.isLogin);
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
 
