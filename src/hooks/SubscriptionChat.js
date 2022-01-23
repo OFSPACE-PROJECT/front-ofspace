@@ -6,6 +6,7 @@ export function useSubscriptionChat(param) {
   let obj;
   if (param.role === "customer") {
     obj = { "customer_id": { "_eq": param.id } };
+    console.log(obj)
   } else {
     obj = { "consultan_id": { "_eq": param.id } };
   }

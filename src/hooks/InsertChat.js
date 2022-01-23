@@ -3,6 +3,6 @@ import { useMutation } from "@apollo/client";
 // import { GetAllPassengers } from "../Graphql/query";
 
 export function useInsertChat() {
-  const [InsertChat, { loading: loadingInsert }] = useMutation(insertChat);
-  return { InsertChat, loadingInsert };
+  const [InsertChat, { data: chat, loading: loadingInsertChat }] = useMutation(insertChat);
+  return { InsertChat, chat, loadingInsertChat };
 }
