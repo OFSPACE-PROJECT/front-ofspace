@@ -1,33 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { Typography, Container, InputBase, IconButton } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { useSelector } from "react-redux";
+import {
+  Typography,
+  Container,
+  InputBase,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Message from "./message";
 import { useInsertMessage } from "../../hooks/InsertMessage";
 import { useSubscriptionMessage } from "../../hooks/SubscriptionMessage";
-import { useSubscriptionChat } from "../../hooks/SubscriptionChat";
 
 export default function Chat(data) {
-  const user = useSelector((state) => state.persistedReducer.user);
-  console.log(user);
-  console.log(user.role);
+  const user = data.user;
+  const chat = data.chat[0];
   const [value, setValue] = useState("");
   const { InsertMessage } = useInsertMessage();
   const { allMessage, errorAllMessage, loadingAllMessage } =
-    useSubscriptionMessage(data?.chat?.id);
-  console.log(allMessage);
+    useSubscriptionMessage(chat?.id);
 
   const onChange = (e) => {
     setValue(e.target.value);
   };
   const onClick = () => {
-    console.log(value, user.role, data.chat.id);
+    console.log(value, user.role, chat.id);
 
     InsertMessage({
       variables: {
-        chat_id: data?.chat?.id,
+        chat_id: chat?.id,
         message: value,
         type: user.role,
       },
@@ -49,29 +50,68 @@ export default function Chat(data) {
         padding: (5, 5, 5, 5),
       }}
     >
-      {data?.chat?.length === 0 && (
+      {loadingAllMessage && (
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
-            width: "25%",
-            height: "25%",
-            backgroundColor: "#ffff",
-            borderRadius: 10,
-            border: " 1px solid #ABABB1",
+            alignItems: "center",
           }}
         >
-          <Typography gutterBottom variant="h4" color="black" component="div">
-            You have not started a chat, Please click booking on building page
-          </Typography>
+          <CircularProgress
+            style={{ width: "200px", height: "200px", color: "#white" }}
+          />
         </Box>
       )}
+
+      {errorAllMessage && (
+        <>
+          {data?.chat?.length === 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                textAlign: "center",
+                // width: "25%",
+                // height: "25%",
+                backgroundColor: "#ffff",
+                // borderRadius: 10,
+                // border: " 1px solid #ABABB1",
+              }}
+            >
+              <Typography
+                gutterBottom
+                variant="h4"
+                color="black"
+                component="div"
+              >
+                You have not started a chat, Please click booking on building
+                page
+              </Typography>
+            </Box>
+          ):(
+          <Box
+            sx={{
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#ffff",
+            }}
+          >
+            <Typography gutterBottom variant="h4" color="black" component="div">
+              Something Gone Wrong
+            </Typography>
+          </Box>
+          )}
+        </>
+      )}
       {data?.chat?.length !== 0 && (
-        <div>
+        <>
           <Box sx={{ overflow: "auto", height: "80vh" }}>
             {allMessage?.ofspace_message.map((message) => (
-              <Message data={message} key={message.id} />
+              <Message data={message} key={message.id} user={user} />
             ))}
           </Box>
           <Box
@@ -98,7 +138,7 @@ export default function Chat(data) {
               <SendIcon />
             </IconButton>
           </Box>
-        </div>
+        </>
       )}
     </Container>
   );
