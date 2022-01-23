@@ -1,12 +1,9 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
-import { useSelector } from "react-redux";
 
 export default function Chat(data) {
-  console.log(data);
-  const user = useSelector((state) => state.persistedReducer.user);
-  console.log(user);
+  const user = data.user;
 
   return (
     <>

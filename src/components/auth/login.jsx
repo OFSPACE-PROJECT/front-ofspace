@@ -24,13 +24,13 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.persistedReducer.user.isLogin);
+  const token = useSelector((state) => state.persistedReducer.user.token);
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
 
-  if (isLogin) {
+  if (token) {
     console.log("masuk");
-    console.log(isLogin);
+    console.log(token);
     navigate("/");
   }
   const loginHandler = (e) => {
@@ -39,33 +39,30 @@ export default function Login() {
     setLoading(true);
     axios
       .post(
-        `https://virtserver.swaggerhub.com/sauronackerman/Ofspace/1.0.0/users/login`,
+        `${process.env.REACT_APP_BASE_URL}/login`,
         {
-          headers: { accept: "*/*", "Content-Type": "application/json" },
+          email: email,
+          password: password,
         },
         {
-          data: {
-            email: email,
-            password: password,
-          },
+          headers: { accept: "*/*", "Content-Type": "application/json" },
         }
       )
       .then(function (response) {
         console.log(response);
+        const user = response.data.data;
         dispatch(
           login({
-            name: response.data.name,
-            id: response.data.id,
-            role: response.data.role,
-            premium: response.data.premium,
-            expired: response.data.expired,
+            id: user.id,
+            role: user.role,
+            token: user.token,
+            status: user.admin_status,
           })
         );
         setLoading(false);
       })
       .catch(function (error) {
-        console.log(error);
-        setError(error);
+        setError(true);
         setLoading(false);
       });
   };
@@ -159,19 +156,19 @@ export default function Login() {
             </LoadingButton>
           )}
           {!loading && (
-          <Button
-            onClick={loginHandler}
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
+            <Button
+              onClick={loginHandler}
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
           )}
           {error && (
-          <Alert variant="standard" severity="error">
-            Your email or password is wrong.
-          </Alert>
+            <Alert variant="standard" severity="error">
+              Your email or password is wrong.
+            </Alert>
           )}
         </FormControl>
       </Box>

@@ -1,22 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import ChatIcon from "@mui/icons-material/Chat";
-import { Typography, Modal, Button, Fab } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Typography, Modal, Fab } from "@mui/material";
 import Chat from "./chat";
-import { useSubscriptionChat } from "../../hooks/SubscriptionChat";
-export default function ModalChat() {
-  const user = useSelector((state) => state.persistedReducer.user);
-  console.log(user);
-  console.log(user.role);
-  const { allChat, errorAllChat, loadingAllChat } = useSubscriptionChat(user);
-
-  console.log(allChat);
-  console.log(allChat?.ofspace_chat[0].id);
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function ModalChat(props) {
+  const user = props.user
 
   return (
     <>
@@ -32,36 +20,18 @@ export default function ModalChat() {
         }}
         color="primary"
         aria-label="add"
-        onClick={handleOpen}>
+        onClick={props.handleOpen}>
         <ChatIcon />
         Live Chat
       </Fab>
       {/* <Button </Button> */}
-      {loadingAllChat && (
+      {props.errorAllChat && (
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            width: "100%",
-            height: "100vh",
-            // backgroundColor: "#ffff",
-            // borderRadius: 10,
-            // border: " 1px solid #ABABB1",
-          }}
-        >
-        <Typography gutterBottom variant="h4" color="white" component="div">
-          Loading...
-        </Typography>
-        </Box>
-      )}
-      {errorAllChat && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
             width: "25%",
             height: "25%",
             backgroundColor: "#ffff",
@@ -75,8 +45,8 @@ export default function ModalChat() {
         </Box>
       )}
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={props.open}
+        onClose={props.handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{
@@ -85,9 +55,10 @@ export default function ModalChat() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          borderRadius: 10,
         }}
       >
-        {allChat?.ofspace_chat && <Chat chat={allChat?.ofspace_chat[0]} />}
+        {props.allChat?.ofspace_chat && <Chat chat={props.allChat?.ofspace_chat} user={user}/>}
       </Modal>
     </>
   );
