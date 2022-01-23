@@ -5,8 +5,7 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store/userSlice";
+import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router";
@@ -19,51 +18,36 @@ export default function Regist() {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLogin = useSelector((state) => state.persistedReducer.user.isLogin);
-  console.log(isLogin)
+  console.log(isLogin);
 
-  if (isLogin) {
-    console.log("masuk");
-    console.log(isLogin);
-    navigate("/login");
-  }
   const registerHandler = (e) => {
     console.log("masuk");
     e.preventDefault();
     setLoading(true);
     axios
       .post(
-        `https://virtserver.swaggerhub.com/sauronackerman/Ofspace/1.0.0/users/register`,
+        `${process.env.REACT_APP_BASE_URL}/register`,
         {
-          headers: { accept: "*/*", "Content-Type": "application/json" },
+          name: name,
+          role: "customer",
+          password: password,
+          email: email,
+          phone: phone,
         },
         {
-          data: {
-            name: name,
-            role: "customer",
-            password: password,
-            email: email,
-            phone: phone,
-          },
+          headers: { accept: "*/*", "Content-Type": "application/json" },
         }
       )
       .then(function (response) {
-        console.log(response);
-        dispatch(
-          login({
-            name: response.data.name,
-            id: response.data.id,
-            role: response.data.role,
-            premium: response.data.premium,
-            expired: response.data.expired,
-          })
-        );
+        const user = response.data.data;
+        if (user.id){
+          navigate("/login");
+        }
         setLoading(false);
       })
       .catch(function (error) {
-        console.log(error);
         setError(error);
         setLoading(false);
       });
