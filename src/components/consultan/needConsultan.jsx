@@ -27,7 +27,7 @@ export default function NeedConsultan(props) {
   const styles = useStyles();
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
-  const [id, setId] = useState();
+  // const [id, setId] = useState();
   const { allChat, errorAllChat, loadingAllChat } =
     useSubscriptionChatNull();
     useEffect(() => {
@@ -44,7 +44,7 @@ export default function NeedConsultan(props) {
   const onClick = (e, id) => {
     e.preventDefault();
     console.log(id)
-    setId(e.value)
+    // setId(e.value)
     UpdateChat({
       variables: {
         pk_columns: {id: id},
