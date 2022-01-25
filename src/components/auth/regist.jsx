@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router";
@@ -19,11 +18,7 @@ export default function Regist() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.persistedReducer.user.isLogin);
-  console.log(isLogin);
-
   const registerHandler = (e) => {
-    console.log("masuk");
     e.preventDefault();
     setLoading(true);
     axios

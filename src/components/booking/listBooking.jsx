@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,8 +8,8 @@ import Box from "@mui/material/Box";
 import { CircularProgress, Container, Modal, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import Booking from "./booking";
+import ModalBox from "./modal";
 
 const useStyles = makeStyles({
   container: {
@@ -23,44 +23,61 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BasicTable() {
-  const user = useSelector((state) => state.persistedReducer.user);
+export default function ListBooking(props) {
   const styles = useStyles();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const [booking, setBooking] = useState([]);
-  const [id, setId] = useState();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  axios
-    .get(`${process.env.REACT_APP_BASE_URL}/booking/user?user_id=${user.id}`, {
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDI4Nzc5NjUsIm5hbWUiOiJoYWxvIiwicm9sZSI6ImN1c3RvbWVyIiwidXNlcklkIjozfQ.UqlDo_SPSwKWzAnjjvF_ZtaLZ-qERQtezZ_zFBvFf60",
-      },  
-    })
-    .then(function (response) {
-      console.log(response);
-      if (response.data.data != null) {
-        setBooking(response.data);
-      } else {
-        setMsg("You dont have booking yet");
+  const [id, setId] = useState(0);
+  const handleOpen = (e, id) => {
+    e.preventDefault();
+    setId(id);
+  };
+  const handleClose = () => {
+    setId(0);
+    setOpen(false);
+  };
+  useEffect(() => {
+    console.log(id);
+    if (id !== 0) {
+      setOpen(true);
+    }
+  }, [id]);
+  useEffect(() => {
+    // props.setLoading(true);
+    axios
+      .get(
+        `${process.env.REACT_APP_BASE_URL}/booking/user?user_id=${props.user.id}`,
+        {
+          headers: {
+            accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + props.user.token,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+        // const resp = response.data.data;
+        if (response.data != null) {
+          setBooking(response.data.data);
+        } else {
+          setMsg("You dont have booking yet");
+          setError(true);
+        }
+        console.log(booking);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setMsg("Something Gone Wrong");
         setError(true);
-      }
-      setLoading(false);
-    })
-    .catch(function (error) {
-      console.log(error);
-      setMsg("Something Gone Wrong");
-      setError(true);
-      setLoading(false);
-    });
+        setLoading(false);
+      });
+  }, []);
+  console.log(booking);
   return (
     <>
       {loading && (
@@ -95,7 +112,7 @@ export default function BasicTable() {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Booking Id</TableCell>
+                  <TableCell align="center">Id</TableCell>
                   <TableCell align="center">Building Name</TableCell>
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center">Deal Date</TableCell>
@@ -115,24 +132,24 @@ export default function BasicTable() {
                   ))}
                 {error && (
                   <TableCell component="th" scope="row" colSpan={6}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      // flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography
-                      gutterBottom
-                      variant="h4"
-                      color="white"
-                      component="div"
+                    <Box
+                      sx={{
+                        display: "flex",
+                        // flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                      }}
                     >
-                      {msg}
-                    </Typography>
-                  </Box>
+                      <Typography
+                        gutterBottom
+                        variant="h4"
+                        color="white"
+                        component="div"
+                      >
+                        {msg}
+                      </Typography>
+                    </Box>
                   </TableCell>
                 )}
               </TableBody>
@@ -140,7 +157,6 @@ export default function BasicTable() {
           </Container>
           <Modal
             open={open}
-            Id={id}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
@@ -151,7 +167,9 @@ export default function BasicTable() {
               justifyContent: "center",
               alignItems: "center",
             }}
-          ></Modal>
+          >
+            <ModalBox id={id} user={props.user} />
+          </Modal>
         </>
       )}
     </>

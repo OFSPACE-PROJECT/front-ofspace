@@ -3,8 +3,8 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function PrivateRoute() {
-  const user = useSelector((state) => state.persistedReducer.user.isLogin);
-  console.log("ISLOGIN = ", user);
+  const user = useSelector((state) => state.persistedReducer.user.token);
+  // console.log("token = ", user);
   const navigate = useNavigate();
   // let location = useLocation();
   useEffect(() => {
@@ -12,7 +12,7 @@ function PrivateRoute() {
     console.log("navigate login");
     navigate("/login");
   }
-}, [user]);
+}, []);
   return (
     <div>
       <Outlet />
