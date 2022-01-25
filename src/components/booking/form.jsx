@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Alert, InputLabel, MenuItem, Select } from "@mui/material";
+import { Alert, MenuItem, Select } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
