@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { useSubscriptionChat } from "./hooks/SubscriptionChat";
+import Nav from "./components/navbar/navbar";
 
 const darkTheme = createTheme({
   components: {
@@ -77,7 +78,7 @@ function App() {
     } else {
       setLog(false);
       console.log(loading + user);
-      setLoading(false)
+      setLoading(false);
     }
   }, [user.token]);
   const { allChat, errorAllChat, loadingAllChat } = useSubscriptionChat(user);
@@ -98,6 +99,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <Router>
         <div className="App">
+          <Nav />
           {(loading || loadingAllChat) && (
             <Box
               sx={{
@@ -120,17 +122,38 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/user" element={<PrivateRoute />}>
                   <Route path="" element={<User />}>
-                    <Route index element={<Profile user={user} setLoading={setLoading}/>} />
-                    <Route path="booking" element={<Booking user={user} setLoading={setLoading}/>} />
+                    <Route
+                      index
+                      element={<Profile user={user} setLoading={setLoading} />}
+                    />
+                    <Route
+                      path="booking"
+                      element={<Booking user={user} setLoading={setLoading} />}
+                    />
                     <Route path="setting" element={<Profile />} />
                   </Route>
                 </Route>
-                  <Route path="review" element={<Review user={user}/>} />
+                <Route path="review" element={<Review user={user} />} />
                 <Route path="/consultan" element={<PrivateRoute />}>
                   <Route path="" element={<Consultan />}>
-                    <Route index element={<MainConsultan user={user} chat={allChat} error={errorAllChat}/>} />
-                    <Route path="booking/:id" element={<FormBooking user={user}/>} />
-                    <Route path="profil" element={<Profile user={user} setLoading={setLoading}/>} />
+                    <Route
+                      index
+                      element={
+                        <MainConsultan
+                          user={user}
+                          chat={allChat}
+                          error={errorAllChat}
+                        />
+                      }
+                    />
+                    <Route
+                      path="booking/:id"
+                      element={<FormBooking user={user} />}
+                    />
+                    <Route
+                      path="profil"
+                      element={<Profile user={user} setLoading={setLoading} />}
+                    />
                   </Route>
                 </Route>
               </Routes>

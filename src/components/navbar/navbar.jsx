@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
-import { Container, Link } from "@mui/material";
+import { Link } from "@mui/material";
 
 export default function Nav() {
   const token = useSelector((state) => state.persistedReducer.user.token);
