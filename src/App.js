@@ -5,6 +5,7 @@ import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
 import Consultan from "./pages/user/consultan";
 import MainConsultan from "./pages/consultan";
+import Review from "./pages/review";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PrivateRoute from "./route/private";
 import Profile from "./components/user/profil";
@@ -74,10 +75,11 @@ function App() {
       setLog(true);
       // setLoading(false)
     } else {
+      setLog(false);
       console.log(loading + user);
       setLoading(false)
     }
-  }, [user]);
+  }, [user.token]);
   const { allChat, errorAllChat, loadingAllChat } = useSubscriptionChat(user);
   useEffect(() => {
     if (allChat?.ofspace_chat && !loadingAllChat) {
@@ -123,6 +125,7 @@ function App() {
                     <Route path="setting" element={<Profile />} />
                   </Route>
                 </Route>
+                  <Route path="review" element={<Review user={user}/>} />
                 <Route path="/consultan" element={<PrivateRoute />}>
                   <Route path="" element={<Consultan />}>
                     <Route index element={<MainConsultan user={user} chat={allChat} error={errorAllChat}/>} />
