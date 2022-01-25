@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { deleteChat } from "../graphql/mutation";
 
-export function useDeleteMovie() {
+export function useDeleteChat() {
   const [DeleteChat, { loading: loadingDelete }] = useMutation(
     deleteChat,
   );

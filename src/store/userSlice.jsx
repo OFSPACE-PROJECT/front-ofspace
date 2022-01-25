@@ -13,7 +13,7 @@ const userSlice = createSlice({
       const userData = action.payload;
       console.log(userData);
       state.id = userData.id;
-      state.role = userData.role;
+      state.role = "consultan";
       state.status = userData.status;
       state.token = userData.token;
       // console.log(state);

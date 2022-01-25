@@ -2,9 +2,10 @@ import gql from "graphql-tag";
 
 const GetChat = gql`
   subscription Chat($where: ofspace_chat_bool_exp = {}) {
-    ofspace_chat(limit: 1, where: $where) {
+    ofspace_chat(where: $where) {
       consultan_id
       created_at
+      updated_at
       customer_id
       id
     }

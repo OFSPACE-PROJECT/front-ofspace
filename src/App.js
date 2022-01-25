@@ -3,10 +3,13 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
+import Consultan from "./pages/user/consultan";
+import MainConsultan from "./pages/consultan";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PrivateRoute from "./route/private";
 import Profile from "./components/user/profil";
 import Booking from "./components/booking/listBooking";
+import FormBooking from "./components/booking/form";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
@@ -67,18 +70,18 @@ function App() {
   const user = useSelector((state) => state.persistedReducer.user);
   useEffect(() => {
     if (user.token) {
-      console.log(loading + user)
-      setLog(true)
-      setLoading(false)
-    } else{
-      console.log(loading + user)
+      console.log(loading + user);
+      setLog(true);
+      // setLoading(false)
+    } else {
+      console.log(loading + user);
       setLoading(false)
     }
   }, [user]);
   const { allChat, errorAllChat, loadingAllChat } = useSubscriptionChat(user);
   useEffect(() => {
-    if (!loadingAllChat) {
-      setLoading(false)
+    if (allChat?.ofspace_chat && !loadingAllChat) {
+      setLoading(false);
     }
   }, [loadingAllChat]);
 
@@ -89,12 +92,11 @@ function App() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   return (
     <ThemeProvider theme={darkTheme}>
       <Router>
         <div className="App">
-        {loading && (
+          {(loading || loadingAllChat) && (
             <Box
               sx={{
                 width: "100vw",
@@ -109,22 +111,38 @@ function App() {
               />
             </Box>
           )}
-
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/user" element={<PrivateRoute />}>
-              <Route path="" element={<User />}>
-                <Route index element={<Profile />} />
-                <Route path="booking" element={<Booking />} />
-                <Route path="setting" element={<Profile />} />
-              </Route>
-            </Route>
-          </Routes>
-          { log && (
-            <Chat user={user} handleOpen={handleOpen} open={open} handleClose={handleClose} errorAllChat={errorAllChat} allChat={allChat}/>
-          )
-          }
+          {!loading && (
+            <>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/user" element={<PrivateRoute />}>
+                  <Route path="" element={<User />}>
+                    <Route index element={<Profile user={user} setLoading={setLoading}/>} />
+                    <Route path="booking" element={<Booking user={user} setLoading={setLoading}/>} />
+                    <Route path="setting" element={<Profile />} />
+                  </Route>
+                </Route>
+                <Route path="/consultan" element={<PrivateRoute />}>
+                  <Route path="" element={<Consultan />}>
+                    <Route index element={<MainConsultan user={user} chat={allChat} error={errorAllChat}/>} />
+                    <Route path="booking/:id" element={<FormBooking user={user}/>} />
+                    <Route path="profil" element={<Profile user={user} setLoading={setLoading}/>} />
+                  </Route>
+                </Route>
+              </Routes>
+              {log && (
+                <Chat
+                  user={user}
+                  handleOpen={handleOpen}
+                  open={open}
+                  handleClose={handleClose}
+                  errorAllChat={errorAllChat}
+                  allChat={allChat}
+                />
+              )}
+            </>
+          )}
         </div>
       </Router>
     </ThemeProvider>
