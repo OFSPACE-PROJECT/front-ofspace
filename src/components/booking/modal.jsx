@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Container, Button } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 export default function ModalChat(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [booking, setBooking] = useState({});
   const [review, setReview] = useState(false);
+  let params = { building: booking.building_id, unit: booking.unit_id, booking: booking.id };
   const navigate = useNavigate();
   const navigateReview = () => {
-    navigate(`user/review/${booking?.id}`);
+    navigate({
+      pathname: '/review',
+      search: `?${createSearchParams(params)}`,
+    });
   };
   useEffect(() => {
     axios
@@ -40,7 +44,12 @@ export default function ModalChat(props) {
   }, []);
 
   console.log(booking);
-  const dateFormatter = new Intl.DateTimeFormat('id', { day: 'numeric', month: 'long', weekday: "long", year: "numeric" });
+  const dateFormatter = new Intl.DateTimeFormat("id", {
+    day: "numeric",
+    month: "long",
+    weekday: "long",
+    year: "numeric",
+  });
   let deal_date = new Date(booking.deal_date);
   return (
     <>
@@ -85,7 +94,12 @@ export default function ModalChat(props) {
             {!error && (
               <>
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -111,7 +125,12 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -137,7 +156,12 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -163,7 +187,12 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -190,7 +219,12 @@ export default function ModalChat(props) {
                 </Box>
 
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -216,7 +250,12 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -242,7 +281,12 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{
+                    width: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
