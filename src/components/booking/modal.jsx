@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Box, Container, Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,36 +10,38 @@ export default function ModalChat(props) {
   const [review, setReview] = useState(false);
   const navigate = useNavigate();
   const navigateReview = () => {
-    navigate(`/review/${booking?.id}`);
+    navigate(`user/review/${booking?.id}`);
   };
-
-  axios
-    .get(`${process.env.REACT_APP_BASE_URL}/booking/${props.id}`, {
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDI5MzE0NTMsIm5hbWUiOiJoYWxvIiwicm9sZSI6ImN1c3RvbWVyIiwidXNlcklkIjozfQ.QtwzCnoJf2yzUJPSxWWbXCxRoYenNMD1WcsuCwLTalI",
-      },
-    })
-    .then(function (response) {
-      console.log(response);
-      if (response.data.data != null) {
-        setBooking(response.data);
-        if (response.data.data.booking_status === "rented") {
-          setReview(true);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/booking/${props.id}`, {
+        headers: {
+          accept: "*/*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.user.token,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.data.data != null) {
+          setBooking(response.data.data);
+          if (response.data.data.booking_status === "deal") {
+            setReview(true);
+          }
+        } else {
+          setError(true);
         }
-      } else {
+        setLoading(false);
+      })
+      .catch(function () {
         setError(true);
-      }
-      setLoading(false);
-    })
-    .catch(function () {
-      setError(true);
-      setLoading(false);
-    });
+        setLoading(false);
+      });
+  }, []);
 
+  console.log(booking);
+  const dateFormatter = new Intl.DateTimeFormat('id', { day: 'numeric', month: 'long', weekday: "long", year: "numeric" });
+  let deal_date = new Date(booking.deal_date);
   return (
     <>
       <Container
@@ -47,7 +49,7 @@ export default function ModalChat(props) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-            justifyContent: "center",
+          justifyContent: "center",
           // color: "#0000",
           width: "50%",
           backgroundColor: "#ffff",
@@ -64,7 +66,7 @@ export default function ModalChat(props) {
                   justifyContent: "center",
                   alignItems: "center",
                   // width: "25%",
-                  height: "100%",
+                  height: "80%",
                   // backgroundColor: "#ffff",
                   // borderRadius: 10,
                   // border: " 1px solid #ABABB1",
@@ -83,7 +85,7 @@ export default function ModalChat(props) {
             {!error && (
               <>
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -96,7 +98,7 @@ export default function ModalChat(props) {
                       Booking Id
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -104,12 +106,12 @@ export default function ModalChat(props) {
                       color="black"
                       sx={{ width: "50%", textAlign: "left" }}
                     >
-                      : {booking?.Id}
+                      : {booking?.id}
                     </Typography>
                   </Box>
                 </Box>
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -122,7 +124,7 @@ export default function ModalChat(props) {
                       Name
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -135,7 +137,7 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -148,7 +150,7 @@ export default function ModalChat(props) {
                       Building Name
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -161,7 +163,7 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -174,7 +176,7 @@ export default function ModalChat(props) {
                       Total Bought
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -182,13 +184,13 @@ export default function ModalChat(props) {
                       color="black"
                       sx={{ width: "50%", textAlign: "left" }}
                     >
-                      : {booking?.TotalBought}
+                      : {booking?.total_bought}
                     </Typography>
                   </Box>
                 </Box>
 
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -201,7 +203,7 @@ export default function ModalChat(props) {
                       Price
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -214,7 +216,7 @@ export default function ModalChat(props) {
                   </Box>
                 </Box>
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -227,7 +229,7 @@ export default function ModalChat(props) {
                       Deal Date
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -235,12 +237,12 @@ export default function ModalChat(props) {
                       color="black"
                       sx={{ width: "50%", textAlign: "left" }}
                     >
-                      : {booking?.deal_date}
+                      : {dateFormatter.format(deal_date)}
                     </Typography>
                   </Box>
                 </Box>
                 <Box
-                  sx={{ display: "flex", alignItems: "center", padding: "5px" }}
+                  sx={{ width: "90%",display: "flex", alignItems: "center", padding: "5px" }}
                 >
                   <Box sx={{ width: "20%" }}>
                     <Typography
@@ -253,7 +255,7 @@ export default function ModalChat(props) {
                       Status
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "70%" }}>
+                  <Box sx={{ width: "80%" }}>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -279,7 +281,7 @@ export default function ModalChat(props) {
                       color="primary"
                       sx={{ mt: 2 }}
                     >
-                      Yes
+                      review
                     </Button>
                   </Box>
                 )}
