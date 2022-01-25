@@ -37,7 +37,7 @@ export default function Regist() {
       )
       .then(function (response) {
         const user = response.data.data;
-        if (user.id){
+        if (user.id) {
           navigate("/login");
         }
         setLoading(false);
@@ -124,6 +124,7 @@ export default function Regist() {
           margin="normal"
           required
           fullWidth
+          type="password"
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

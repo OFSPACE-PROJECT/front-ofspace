@@ -12,40 +12,39 @@ export default function ReviewForm(props) {
   const [RatingQuality, setRatingQuality] = useState(0);
   const SubmitHandler = () => {
     axios
-    .post(
-      `${process.env.REACT_APP_BASE_URL}/review`,
-      {
-        customer_id: props.user.id,
-        unit_id: parseInt(props.unit),
-        building_id: parseInt(props.building),
-        booking_id: parseInt(props.booking),
-        rating_acces: parseInt(RatingAccess),
-        rating_facility: parseInt(RatingFacility),
-        rating_management: parseInt(RatingManagement),
-        rating_quality: parseInt(RatingQuality),
-        comment: Comment,
-      },
-      {
-        headers: {
-          accept: "*/*",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.user.token,
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/review`,
+        {
+          customer_id: props.user.id,
+          unit_id: parseInt(props.unit),
+          building_id: parseInt(props.building),
+          booking_id: parseInt(props.booking),
+          rating_acces: parseInt(RatingAccess),
+          rating_facility: parseInt(RatingFacility),
+          rating_management: parseInt(RatingManagement),
+          rating_quality: parseInt(RatingQuality),
+          comment: Comment,
         },
-      }
-    )
-    .then(function (response) {
-      console.log(response)
-      setComment("")
-      setRatingAccess(0)
-      setRatingFacility(0)
-      setRatingManagement(0)
-      setRatingQuality(0)
-    })
-    .catch(function (error) {
-      console.log(error.message)
-    });
-
-  }
+        {
+          headers: {
+            accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + props.user.token,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+        setComment("");
+        setRatingAccess(0);
+        setRatingFacility(0);
+        setRatingManagement(0);
+        setRatingQuality(0);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
   return (
     <Stack
       spacing={1}
@@ -143,7 +142,7 @@ export default function ReviewForm(props) {
         onClick={SubmitHandler}
         // type="submit"
         variant="contained"
-        color="primary"
+        color="secondary"
         sx={{ mt: 3, mb: 2 }}
         // onSubmit={BookingHandler}
       >

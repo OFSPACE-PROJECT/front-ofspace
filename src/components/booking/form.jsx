@@ -54,11 +54,11 @@ export default function BookingForm(props) {
         }
       )
       .then(function (response) {
-        console.log(response)
+        console.log(response);
         setLoading(false);
       })
       .catch(function (error) {
-        console.log(error.message)
+        console.log(error.message);
         setError(false);
         setLoading(false);
       });
@@ -310,9 +310,9 @@ export default function BookingForm(props) {
           <Box>
             <Button
               onClick={BookingHandler}
-                // type="submit"
+              // type="submit"
               variant="contained"
-              color="primary"
+              color="secondary"
               sx={{ mt: 3, mb: 2 }}
               // onSubmit={BookingHandler}
             >

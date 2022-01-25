@@ -60,8 +60,9 @@ export default function ListBooking(props) {
       )
       .then(function (response) {
         console.log(response);
+        console.log(response.data.data);
         // const resp = response.data.data;
-        if (response.data != null) {
+        if (response.data.data != null) {
           setBooking(response.data.data);
         } else {
           setMsg("You dont have booking yet");

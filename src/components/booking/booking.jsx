@@ -4,8 +4,13 @@ import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 
 export default function BasicTable(props) {
-  const booking = props.booking
-  const dateFormatter = new Intl.DateTimeFormat('id', { day: 'numeric', month: 'long', weekday: "long", year: "numeric" });
+  const booking = props.booking;
+  const dateFormatter = new Intl.DateTimeFormat("id", {
+    day: "numeric",
+    month: "long",
+    weekday: "long",
+    year: "numeric",
+  });
   let deal_date = new Date(booking.deal_date);
   return (
     <TableRow
@@ -20,10 +25,15 @@ export default function BasicTable(props) {
       <TableCell align="center">{dateFormatter.format(deal_date)}</TableCell>
       <TableCell align="center">{booking.booking_status}</TableCell>
       <TableCell align="center">
-        <Button variant="contained" onClick={(e) =>props.OpenModal(e, booking.id)}>Show</Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={(e) => props.OpenModal(e, booking.id)}
+        >
+          Show
+        </Button>
       </TableCell>
-      <TableCell align="center">
-      </TableCell>
+      <TableCell align="center"></TableCell>
     </TableRow>
   );
 }
