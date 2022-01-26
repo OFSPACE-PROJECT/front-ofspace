@@ -43,30 +43,11 @@ function SidebarDashboard(props) {
 			<Toolbar />
 			<Divider />
 			<List>
-				{/*<ListItem button key="Sales Overview" onClick={() => history('/dashboard/salesOverview')}>*/}
-				{/*	<ListItemIcon>*/}
-				{/*		<MonetizationOnIcon/>*/}
-				{/*	</ListItemIcon>*/}
-				{/*	<ListItemText primary="Sales Overview" />*/}
-				{/*</ListItem>*/}
-				<ListItem button key="Building Overview" onClick={() => history('/dashboard/buildingOverview')}>
-					<ListItemIcon>
-						<LocationCityIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Building Overview" />
-				</ListItem>
-
-				{/*<ListItem button key="Unit Overview" onClick={() => history('/dashboard/unitOverview')}>*/}
-				{/*	<ListItemIcon>*/}
-				{/*		<CropSquareIcon/>*/}
-				{/*	</ListItemIcon>*/}
-				{/*	<ListItemText primary="Unit Overview" />*/}
-				{/*</ListItem>*/}
-				<ListItem button key="Booking Data" onClick={() => history('/dashboard/bookingOverview')}>
+				<ListItem button key="User Data" onClick={() => history('/dashboard/superadmin/user')}>
 					<ListItemIcon>
 						<CropSquareIcon/>
 					</ListItemIcon>
-					<ListItemText primary="Booking Data" />
+					<ListItemText primary="User Data" />
 				</ListItem>
 			</List>
 			<Divider />
