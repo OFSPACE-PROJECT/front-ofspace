@@ -54,6 +54,7 @@ export default function Login() {
         dispatch(
           login({
             id: user.id,
+            name: user.name,
             role: user.role,
             token: user.token,
             status: user.admin_status,
