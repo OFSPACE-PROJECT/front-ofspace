@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Complex from "./pages/complex";
 import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
 import Consultan from "./pages/user/consultan";
@@ -13,6 +14,7 @@ import PrivateRoute from "./route/private";
 import Profile from "./components/user/profil";
 import Booking from "./components/booking/listBooking";
 import FormBooking from "./components/booking/form";
+import Test from "./components/building/card";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
@@ -120,8 +122,9 @@ function App() {
           {!loading && (
             <>
               <Routes>
-                <Route path="/" element={<Home setLoading={setLoading}/>} />
+                <Route path="/" element={<Home />} />
                 <Route path="/search" element={<Search />} />
+                <Route path="/complex/:id" element={<Complex />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/user" element={<PrivateRoute />}>
