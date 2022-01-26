@@ -6,7 +6,11 @@ import CardContent from "@mui/material/CardContent";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		display: "flex"
+		display: "flex",
+		width: 1000,
+		padding: "10px",
+		margin: "10px",
+		borderRadius: "10px"
 	},
 	item: {
 	},
@@ -15,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function DescriptionBuilding() {
+export default function DescriptionBuilding({description}) {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.container}>
-			<Card>
+			<Card sx={{padding: "10px"}}>
 				<Typography variant="h6">
-					Building Description :
+					Building Description
 				</Typography>
 				<Typography variant="subtitle1">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque cumque ea eaque excepturi exercitationem hic illum, labore laboriosam perferendis repellat sint tempora velit.

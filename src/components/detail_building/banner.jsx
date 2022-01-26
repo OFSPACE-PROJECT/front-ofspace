@@ -15,23 +15,26 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function BannerBuilding() {
+export default function BannerBuilding(props) {
 	const classes = useStyles();
 
 	return (
 			<div className={classes.container}>
-				<div><img src="https://picsum.photos/id/237/200/300" alt="test" width="180px" height="270px" /></div>
+				{/*<div><img src="https://picsum.photos/id/237/200/300" alt="test" width="210px" height="250px" /></div>*/}
+				<div><img src={props.image_url} alt="test" width="210px" height="250px" /></div>
 				<Card className={classes.itemFlexGrow}>
 					<CardContent>
-						<Typography mt={5} align="center" gutterBottom variant="h2" >
-							Name of Building
+						<Typography mt={5} align="center" gutterBottom variant="h3" >
+							{/*Name of Building*/}
+							{props.name}
 						</Typography>
 						<Typography align="center" gutterBottom variant="h5" >
-							Type : Unit Type
+							Type : Unit Type {props.unit_type}
 						</Typography>
 					</CardContent>
 				</Card>
-				<div> <img src="https://picsum.photos/id/237/200/300" alt="test" width="180px" height="270px" /> </div>
+				{/*<div> <img src="https://picsum.photos/id/237/200/300" alt="test" width="210px" height="250px" /> </div>*/}
+				<div> <img src={props.image_url} alt="test" width="210px" height="250px" /> </div>
 			</div>
 	);
 }

@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import {List, ListItem, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
+import {Grid, List, ListItem, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	item: {
 		borderRadius: "5px",
+		padding: "5px",
+		margin: "5px",
+		maxWidth: 180,
 	},
 	itemFlexGrow: {
 		flexGrow: 1,
@@ -19,17 +22,65 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function BuildingInformation() {
+export default function BuildingInformation(props) {
 	const classes = useStyles();
 
 	return (
-		<Box className={classes.container} maxWidth="1000px" sx={{display: "flex", flexWrap:"Wrap"}}>
+		// <Box className={classes.container}>
+		<Box sx={{
+			margin: "10px",
+			display: 'grid',
+			gridTemplateColumns: 'repeat(4, 1fr)',
+			gridTemplateRows: 'repeat(2)',
+			maxWidth:900,
+			textAlign: 'center',
+		}} >
 			<Card className={classes.item}>
 				<Typography variant="subtitle1" fontWeight="bold">
-					Office Hours:
+					Year Constucted
+				</Typography>
+				<Typography variant="subtitle1" fontWeight="bold">
+					{/*1990*/}
+					{props.buildingData.year_constucted}
+				</Typography>
+			</Card>
+
+			<Card className={classes.item}>
+				<Typography variant="subtitle1" fontWeight="bold">
+					Floor Count
 				</Typography>
 				<Typography variant="subtitle2">
-					Lorem ipsum dolor sit amet.
+					{/*12*/}
+					{props.buildingData.floor_count}
+				</Typography>
+			</Card>
+			<Card className={classes.item}>
+				<Typography variant="subtitle1" fontWeight="bold">
+					Average Floor Plate
+
+				</Typography>
+				<Typography variant="subtitle2">
+					{/*250 m{"\u00B2"}*/}
+					{props.buildingData.average_floor_size} m{"\u00B2"}
+				</Typography>
+			</Card >
+			<Card className={classes.item}>
+				<Typography variant="subtitle1" fontWeight="bold">
+					Building Size
+				</Typography>
+				<Typography variant="subtitle2">
+					{/*250 m{"\u00B2"}*/}
+					{props.buildingData.building_size} m{"\u00B2"}
+				</Typography>
+			</Card>
+			<Card className={classes.item}>
+
+				<Typography variant="subtitle1" fontWeight="bold">
+					Office Hours
+				</Typography>
+				<Typography variant="subtitle2">
+					{/*Lorem ipsum dolor sit amet.*/}
+					{props.buildingData.office_hours}
 				</Typography>
 			</Card>
 			<Card className={classes.item}>
@@ -37,7 +88,8 @@ export default function BuildingInformation() {
 					Membership Parking
 				</Typography>
 				<Typography variant="subtitle2">
-					Lorem ipsum dolor sit amet.
+					{/*Lorem ipsum dolor sit amet.*/}
+					{props.buildingData.parking}
 				</Typography>
 			</Card>
 			<Card className={classes.item}>
@@ -45,39 +97,8 @@ export default function BuildingInformation() {
 					Toilets
 				</Typography>
 				<Typography variant="subtitle2" >
-					Lorem ipsum dolor sit amet.
-				</Typography>
-			</Card>
-			<Card className={classes.item}>
-				<Typography variant="subtitle1" fontWeight="bold">
-					Building Size
-				</Typography>
-				<Typography variant="subtitle2">
-					250 m{"\u00B2"}
-				</Typography>
-			</Card>
-			<Card className={classes.item}>
-				<Typography variant="subtitle1" fontWeight="bold">
-					Average Floor Plate
-				</Typography>
-				<Typography variant="subtitle2">
-					250 m{"\u00B2"}
-				</Typography>
-			</Card >
-			<Card className={classes.item}>
-				<Typography variant="subtitle1" fontWeight="bold">
-					Floor Count
-				</Typography>
-				<Typography variant="subtitle2">
-					12
-				</Typography>
-			</Card>
-			<Card className={classes.item}>
-				<Typography variant="subtitle1" fontWeight="bold">
-					Year Constucted
-				</Typography>
-				<Typography variant="subtitle1" fontWeight="bold">
-					1990
+					{/*Lorem ipsum dolor sit amet.*/}
+					{props.buildingData.toilets}
 				</Typography>
 			</Card>
 			<Card className={classes.item}>
@@ -85,20 +106,9 @@ export default function BuildingInformation() {
 					Lifts
 				</Typography>
 				<Typography variant="subtitle2">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis earum eius eos hic velit voluptate.
+					{/*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis earum eius eos hic velit voluptate.*/}
+					{props.buildingData.lifts}
 				</Typography>
-			</Card>
-			<Card className={classes.item}>
-				<Typography variant="subtitle1" fontWeight="bold">
-					Facilities
-				</Typography>
-				<List>
-					{['Inbox', 'Setting'].map((text, index) => (
-						<ListItem key={text}>
-							<ListItemText primary={text} sx={{fontSize:'11px'}}/>
-						</ListItem>
-					))}
-				</List>
 			</Card>
 		</Box>
 	);
