@@ -20,8 +20,7 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {Select, TextField} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
+import { TextField} from "@mui/material";
 import {Fragment, useEffect} from "react";
 
 
@@ -82,7 +81,7 @@ const headCells = [
 		id: 'address',
 		numeric: false,
 		disablePadding: false,
-		label: 'Adress',
+		label: 'Address',
 	},
 	{
 		id: 'longitude',
@@ -147,20 +146,8 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-	// const [getSearch, setSearch] = React.useState('')
-	const { numSelected } = props;
-	// const requestSearch = (searchedVal: string) => {
-	// 	const filteredRows = props.rows.filter((row) => {
-	// 		return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-	// 	});
-	// 	props.setRows2(filteredRows);
-	// };
-	//
-	// const cancelSearch = () => {
-	// 	setSearch("");
-	// 	requestSearch(getSearch);
-	// };
 
+	const { numSelected } = props;
 
 	return (
 		<Toolbar
@@ -245,7 +232,7 @@ EditToolbar.propTypes = {
 	setSelectedCellParams: PropTypes.func.isRequired,
 };
 
-export default function UserData() {
+export default function ComplexData() {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
@@ -262,8 +249,6 @@ export default function UserData() {
 	const [isEdit2, setEdit2] = React.useState(false);
 	const [isEdit3, setEdit3] = React.useState(false);
 	const [isEdit4, setEdit4] = React.useState(false);
-	const [isEdit5, setEdit5] = React.useState(false);
-	const [isEdit6, setEdit6] = React.useState(false);
 	const [complexes, setComplexes] = React.useState([])
 	const [complexOne, setComplexOne] = React.useState([])
 	const user = useSelector((state) => state.persistedReducer?.user);
@@ -372,6 +357,7 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
+				alert('update complex failed', error);
 				// setError(error);
 				// setLoading(false);
 			});
@@ -395,8 +381,9 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
+				alert('update complex failed');
 				// setError(error);
-				// setLoading(false);
+				alert('update complex failed', error);
 			});
 	}
 	const handleUpdate3 = () => {
@@ -418,7 +405,8 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
-				// setError(error);
+				alert('update complex failed');
+				alert('update complex failed', error);
 				// setLoading(false);
 			});
 	}
@@ -441,6 +429,7 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
+				alert('update complex failed');
 				// setError(error);
 				// setLoading(false);
 			});
@@ -467,6 +456,7 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
+				alert('create complex failed', error);
 				// setError(error);
 				// setLoading(false);
 			});
@@ -478,7 +468,6 @@ export default function UserData() {
 				<Box sx={{ width: '100%' }}>
 					<Paper sx={{ width: '100%', mb: 2 }}>
 						<EnhancedTableToolbar numSelected={selected.length} />
-						{/*<EnhancedTableToolbar  />*/}
 						<TableContainer>
 							<Table
 								sx={{ minWidth: 750 }}

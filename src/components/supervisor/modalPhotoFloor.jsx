@@ -2,7 +2,6 @@ import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Carousel from 'react-material-ui-carousel'
@@ -25,7 +24,7 @@ const style = {
 	p: 4,
 };
 
-export default function ModalPhotoFloor({open, unit, handleClose, floor}, props) {
+export default function ModalPhotoFloor({open, unit, handleClose, floor}) {
 
 	return (
 
@@ -66,7 +65,6 @@ function Item(props)
 	const [editOn, toggleEditOn] = useToggle()
 	const [selectedImage, setSelectedImage] = useState(null)
 	const [idExt, setIdx] = useState('')
-	const [thisExterior, setThisExterior] = useState(props.item[idExt])
 
 	const handleInputChange = (e) => {
 		// setDisable(false);
@@ -121,10 +119,10 @@ function Item(props)
 			});}
 
 	const handleDeletePhoto = (e) => {
-
+		const idnya= e.target.id
 		axios
 			.delete(
-				`http://3.142.49.13:8080/building/${props.unit?.id}/floor/${idExt}`,
+				`http://3.142.49.13:8080/building/${props.unit?.id}/floor/${idnya}`,
 				{
 					headers:  {"Authorization" : `Bearer ${user.token}`}
 				}
@@ -141,10 +139,28 @@ function Item(props)
 			});
 	}
 
-	const handleConfirmDelete = () => {
+	const handleConfirmDelete = (e) => {
+		const idnya= e.target.id
 		let text
 		if (window.confirm("Delete this Photo?") == true) {
-			handleDeletePhoto()
+
+			axios
+				.delete(
+					`http://3.142.49.13:8080/building/${props.unit?.id}/floor/${idnya}`,
+					{
+						headers:  {"Authorization" : `Bearer ${user.token}`}
+					}
+				)
+				.then(function (response) {
+					console.log(response);
+					alert("success delete image")
+					// setLoading(false);
+				})
+				.catch(function (error) {
+					alert("fail delete image")
+					// setError(error);
+					// setLoading(false);
+				});
 		} else {
 			text = "You canceled!";
 		}
@@ -183,7 +199,7 @@ function Item(props)
 				:
 			<img src={props.item.photo_url} height="600px" width="600px" style={{alignItems:"center"}} alt={props.item.description}/>}
 			<Typography align="center">{props.item.description}</Typography>
-			<Box textAlign="center"><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleConfirmDelete} >Delete This Photo</Button>
+			<Box textAlign="center"><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} id={props.item.id} onClick={(e)=>handleConfirmDelete(e)} >Delete This Photo</Button>
 			<Button variant="outlined" 	style={{color:'white', borderColor:'white'}} id={props.item.id} onClick={(e)=>{toggleEditOn(); handleSaveId(e)}}>Edit This Photo</Button>
 			</Box>
 		</Paper>

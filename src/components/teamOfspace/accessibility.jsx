@@ -20,10 +20,8 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {Select, TextField} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import {Fragment, useEffect} from "react";
-import address from "address";
+import { TextField} from "@mui/material";
+import { useEffect} from "react";
 
 
 function createDataComplex(id, name, address, longitude, latitude,) {
@@ -148,17 +146,6 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = (props) => {
 	// const [getSearch, setSearch] = React.useState('')
 	const { numSelected } = props;
-	// const requestSearch = (searchedVal: string) => {
-	// 	const filteredRows = props.rows.filter((row) => {
-	// 		return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-	// 	});
-	// 	props.setRows2(filteredRows);
-	// };
-	//
-	// const cancelSearch = () => {
-	// 	setSearch("");
-	// 	requestSearch(getSearch);
-	// };
 
 
 	return (
@@ -244,7 +231,7 @@ EditToolbar.propTypes = {
 	setSelectedCellParams: PropTypes.func.isRequired,
 };
 
-export default function UserData() {
+export default function Access() {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
@@ -269,7 +256,7 @@ export default function UserData() {
 
 	}, []);
 
-	var rows = facilities.map(facility =>(createDataComplex(facility.id, facility.name)))
+	var rows = access.map(facility =>(createDataComplex(facility.id, facility.name, facility.address, facility.longitude, facility.latitude)))
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -322,10 +309,15 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
+				alert('create accessibility failed');
 				// setError(error);
 				// setLoading(false);
 			});
 		handleRefreshData()
+		setNewName('')
+		setNewAddress("")
+		setNewLongitude('')
+		setNewLatitude('')
 	}
 	return (
 		<div style={{display: 'flex', flex: 1, flexDirection: 'column'}}>

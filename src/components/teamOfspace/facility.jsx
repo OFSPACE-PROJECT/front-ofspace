@@ -20,9 +20,8 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {Select, TextField} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import {Fragment, useEffect} from "react";
+import { TextField} from "@mui/material";
+import { useEffect} from "react";
 
 
 function createDataComplex(id, name) {
@@ -79,7 +78,7 @@ const headCells = [
 
 function EnhancedTableHead(props) {
 	// const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-	const { order, orderBy, rowCount, onRequestSort } =
+	const { order, orderBy, onRequestSort } =
 		props;
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
@@ -128,18 +127,6 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = (props) => {
 	// const [getSearch, setSearch] = React.useState('')
 	const { numSelected } = props;
-	// const requestSearch = (searchedVal: string) => {
-	// 	const filteredRows = props.rows.filter((row) => {
-	// 		return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-	// 	});
-	// 	props.setRows2(filteredRows);
-	// };
-	//
-	// const cancelSearch = () => {
-	// 	setSearch("");
-	// 	requestSearch(getSearch);
-	// };
-
 
 	return (
 		<Toolbar
@@ -224,7 +211,7 @@ EditToolbar.propTypes = {
 	setSelectedCellParams: PropTypes.func.isRequired,
 };
 
-export default function UserData() {
+export default function Facility() {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
@@ -296,6 +283,7 @@ export default function UserData() {
 				// setLoading(false);
 			})
 			.catch(function (error) {
+				alert('create facility failed', error);
 				// setError(error);
 				// setLoading(false);
 			});
