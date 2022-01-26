@@ -11,7 +11,7 @@ export default function Nav() {
   const token = useSelector((state) => state.persistedReducer.user.token);
 
   return (
-    <Box sx={{ mb: 5 }}>
+    <Box sx={{ borderBottom: 1, borderColor:"white" }}>
       <AppBar position="static" sx={{ backgroundColor: "#0D5C8C" }}>
         <Toolbar sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
           <Box
