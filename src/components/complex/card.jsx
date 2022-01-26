@@ -19,7 +19,7 @@ export default function ComplexCard(props) {
   console.log(data)
   const navigate = useNavigate();
   const OnClick = () => {
-    navigate(`/building/${props.complex.id}`);
+    navigate(`/complex/${props.complex.id}`);
   };
   return (
     <Card sx={{ maxWidth: "500px"}}>
