@@ -24,14 +24,24 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const token = useSelector((state) => state.persistedReducer.user.token);
+  const userRedux = useSelector((state) => state.persistedReducer.user);
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
 
-  if (token) {
+  if (userRedux.token) {
     console.log("masuk");
-    console.log(token);
-    navigate("/");
+    console.log(userRedux);
+    if (userRedux.role === "customer") {
+      navigate("/");
+    } else if (userRedux.role === "consultan") {
+      navigate("/consultan");
+    } else if (userRedux.role === "supervisor") {
+      navigate("/supervisor");
+    } else if (userRedux.role === "superadmin") {
+      navigate("/superadmin");
+    } else if (userRedux.role === "teamofspace") {
+      navigate("/teamofspace");
+    }
   }
   const loginHandler = (e) => {
     e.preventDefault();
