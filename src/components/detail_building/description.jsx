@@ -29,7 +29,8 @@ export default function DescriptionBuilding({description}) {
 					Building Description
 				</Typography>
 				<Typography variant="subtitle1">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque cumque ea eaque excepturi exercitationem hic illum, labore laboriosam perferendis repellat sint tempora velit.
+					{/*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque cumque ea eaque excepturi exercitationem hic illum, labore laboriosam perferendis repellat sint tempora velit.*/}
+					{description}
 				</Typography>
 			</Card>
 		</div>

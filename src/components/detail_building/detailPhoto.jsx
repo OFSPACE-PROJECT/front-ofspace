@@ -57,7 +57,7 @@ export default function DetailPhoto(props) {
 			.then(function (response) {
 				console.log(response);
 				if (response.data?.data != null) {
-					setExteriorPhoto(response.data?.data);
+					setExteriorPhoto(response.data.data);
 				} else {
 					setError(true);
 				}
@@ -78,7 +78,7 @@ export default function DetailPhoto(props) {
 			.then(function (response) {
 				console.log(response);
 				if (response.data?.data != null) {
-					setInteriorPhoto(response.data?.data);
+					setInteriorPhoto(response.data.data);
 				} else {
 					setError(true);
 				}
@@ -99,7 +99,7 @@ export default function DetailPhoto(props) {
 			.then(function (response) {
 				console.log(response);
 				if (response.data?.data != null) {
-					setFloorPhoto(response.data?.data);
+					setFloorPhoto(response.data.data);
 				} else {
 					setError(true);
 				}
@@ -112,6 +112,27 @@ export default function DetailPhoto(props) {
 	}, [])
 	const isLoading = loading;
 	const isError = error;
+	// console.log("thisext", exteriorPhoto[0].photo_url)
+	let addExterior
+	if (isLoading || exteriorPhoto[0] === undefined) {
+		addExterior = "https://picsum.photos/200/300"
+	} else {
+		addExterior= exteriorPhoto[0]?.photo_url
+	}
+	let addInterior
+	if (isLoading || interiorPhoto[0] === undefined) {
+		addInterior = "https://picsum.photos/200/300"
+	} else {
+		addInterior= interiorPhoto[0]?.photo_url
+	}
+	let addFloor
+	if (isLoading || floorPhoto[0] === undefined) {
+		addFloor = "https://picsum.photos/200/300"
+	} else {
+		addFloor= floorPhoto[0]?.photo_url
+	}
+
+	// console.log(typeof floorPhoto[0])
 	return (<>
 		<Box sx={{
 			display: 'flex',
@@ -124,8 +145,9 @@ export default function DetailPhoto(props) {
 					component="img"
 					height="200"
 					width="300"
-					// image="https://picsum.photos/id/237/200/300"
-					image={floorPhoto[0].photo_url}
+					// image={add}
+					// image="https://picsum.photos/200/300"
+					image={addInterior}
 					alt="Interior Photo"
 				/>
 				<Button onClick={handleOpenInterior} variant="subtitle1" fontWeight="bold">
@@ -133,13 +155,14 @@ export default function DetailPhoto(props) {
 				</Button>
 			</Card>
 			<Card className={classes.item}>
-				<CardMedia
+				{!isLoading && <CardMedia
 					component="img"
 					height="200"
 					width="300"
-					image={exteriorPhoto[0].photo_url}
-					alt="Interior Photo"
-				/>
+					image="https://picsum.photos/id/237/200/300"
+					image={addExterior}
+					alt="Exterior Photo"
+				/>}
 				<Button onClick={handleOpenExterior} variant="subtitle1" fontWeight="bold">
 					Exterior Photo
 				</Button>
@@ -149,9 +172,9 @@ export default function DetailPhoto(props) {
 					component="img"
 					height="200"
 					width="300"
-					// image="https://picsum.photos/id/237/200/300" exampe
-					image={interiorPhoto[0].photo_url}
-					alt="Interior Photo"
+					// image="https://picsum.photos/id/237/200/300"
+					image={addFloor}
+					alt="Floor Photo"
 				/>
 				<Button onClick={handleOpenFloor} variant="subtitle1" fontWeight="bold">
 					Floor Photo

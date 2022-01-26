@@ -41,7 +41,7 @@ export default function BuildingInformation(props) {
 				</Typography>
 				<Typography variant="subtitle1" fontWeight="bold">
 					{/*1990*/}
-					{props.buildingData.year_constucted}
+					{props.buildingData.year_constructed}
 				</Typography>
 			</Card>
 
@@ -50,8 +50,8 @@ export default function BuildingInformation(props) {
 					Floor Count
 				</Typography>
 				<Typography variant="subtitle2">
-					{/*12*/}
-					{props.buildingData.floor_count}
+					12
+					{/*{props.buildingData.floor_count}*/}
 				</Typography>
 			</Card>
 			<Card className={classes.item}>

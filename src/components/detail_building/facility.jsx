@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: "5px",
 		padding: "5px",
 		margin: "5px",
+		marginLeft: "15px",
 		width:220,
 	},
 	itemFlexGrow: {
@@ -41,7 +42,7 @@ export default function DetailFacility(props) {
 			.then(function (response) {
 				console.log(response);
 				if (response.data.data != null) {
-					setBuildingFacility(response.data.data);
+					setBuildingFacility(response.data.data.building_facilities);
 				} else {
 					setError(true);
 				}
@@ -62,7 +63,7 @@ export default function DetailFacility(props) {
 			.then(function (response) {
 				console.log(response);
 				if (response.data.data != null) {
-					setUnitFacility(response.data.data);
+					setUnitFacility(response.data.data.unit_facilities);
 				} else {
 					setError(true);
 				}
@@ -73,6 +74,8 @@ export default function DetailFacility(props) {
 				setLoading(false);
 			});
 	}, [])
+
+	console.log("thisfac", buildingFacility)
 
 	const isLoading = loading;
 	const isError = error;
@@ -88,18 +91,18 @@ export default function DetailFacility(props) {
 			{/*		</ListItem>*/}
 			{/*	))}*/}
 			{/*</List>*/}
-			<List>
-				{buildingFacility.map((nama, index) => (
-					<ListItem key={nama}>
-						<ListItemText primary={nama} sx={{fontSize:'11px'}}/>
+			{!isLoading && <List>
+				{ buildingFacility && buildingFacility.map((facility) => (
+					<ListItem key={facility.id}>
+						<ListItemText primary={facility.name} sx={{fontSize: '11px'}}/>
 					</ListItem>
 				))}
-				{unitFacility.map((nama, index) => (
-					<ListItem key={nama}>
-						<ListItemText primary={nama} sx={{fontSize:'11px'}}/>
+				{ unitFacility && unitFacility.map((facility) => (
+					<ListItem key={facility.id}>
+						<ListItemText primary={facility.name} sx={{fontSize: '11px'}}/>
 					</ListItem>
 				))}
-			</List>
+			</List>}
 		</Card>
 	)
 }
