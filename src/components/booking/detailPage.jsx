@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Box, Button, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -19,12 +19,18 @@ export default function ModalChat(props) {
   const { allChat, loadingAllChat } = useSubscriptionChat(user);
 
   const onClick = () => {
-    if (props.type === "office") {
-      setValue(props.name, props.type, sqm, "sqm", date);
+    if (props.unit.unit_type === "office") {
+    setValue(user.name + "," + props.building.name + "," + props.unit.unit_type + "," + sqm + "sqm" + "," + date);
+    console.log(value);
     } else {
-      setValue(props.name, props.type, desk, "desk", date);
+    setValue(props.name + "," + props.unit.unit_type + "," + desk + "," + "desk" + "," + date);
     }
-    if (!loadingAllChat & (allChat?.ofspace_chat.length !== 0)) {
+  };
+  useEffect(() => {
+    console.log(value, "test");
+    console.log(allChat); 
+    if (value && allChat?.ofspace_chat.length !== 0 ) {
+      console.log(value, "1");
       InsertMessage({
         variables: {
           chat_id: allChat?.ofspace_chat[0].id,
@@ -32,23 +38,32 @@ export default function ModalChat(props) {
           type: user.role,
         },
       });
-    } else if (!loadingAllChat & (allChat?.ofspace_chat.length === 0)) {
+    } else if (value && allChat?.ofspace_chat.length === 0 ){
+      console.log(value, "2");
       InsertChat({
         variables: {
           customer_id: user.id,
         },
       });
+    }
+  }, [value]);
+  useEffect(() => {
+    console.log(chat, "masukk")
+    console.log(chat, "insert")
       if (!loadingInsertChat) {
+        
+        console.log(value, "3");
         InsertMessage({
           variables: {
-            chat_id: chat.id,
+            chat_id: chat?.insert_ofspace_chat_one.id,
             message: value,
             type: user.role,
           },
         });
       }
-    }
-  };
+  }, [chat, loadingInsertChat]);
+
+  
 
   return (
     <>
@@ -90,7 +105,7 @@ export default function ModalChat(props) {
         >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              disableFuture
+              // disableFuture
               color="secondary"
               label="Booking Date"
               openTo="year"
