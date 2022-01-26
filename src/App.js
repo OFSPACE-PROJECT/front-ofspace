@@ -5,6 +5,8 @@ import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
 import Consultan from "./pages/user/consultan";
 import MainConsultan from "./pages/consultan";
+import Home from "./pages/home";
+import Search from "./pages/search";
 import Review from "./pages/review";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PrivateRoute from "./route/private";
@@ -118,6 +120,8 @@ function App() {
           {!loading && (
             <>
               <Routes>
+                <Route path="/" element={<Home setLoading={setLoading}/>} />
+                <Route path="/search" element={<Search />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/user" element={<PrivateRoute />}>
