@@ -14,12 +14,12 @@ import PrivateRoute from "./route/private";
 import Profile from "./components/user/profil";
 import Booking from "./components/booking/listBooking";
 import FormBooking from "./components/booking/form";
-import Test from "./components/building/card";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { useSubscriptionChat } from "./hooks/SubscriptionChat";
 import Nav from "./components/navbar/navbar";
+import AxiosConfig from "./config/axiosInterceptor";
 
 const darkTheme = createTheme({
   components: {
@@ -102,6 +102,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <Router>
+        <AxiosConfig/>
         <div className="App">
           <Nav />
           {(loading || loadingAllChat) && (
