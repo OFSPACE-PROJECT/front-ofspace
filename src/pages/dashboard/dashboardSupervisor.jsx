@@ -8,6 +8,7 @@ import {Fragment} from "react";
 import Login from "../../components/auth/login";
 import TopBar from "../../components/supervisor/topbar";
 import {makeStyles} from "@mui/styles";
+import BookingOverview from "../../components/supervisor/bookingOverview";
 
 
 
@@ -23,9 +24,9 @@ export default function DashboardSupervisor() {
 			{/*<SalesOverview/>*/}
 				{/*<Route index={true} element={<DashboardSupervisor/>}>*/}
 				<Routes>
-		{/*<Route exact path="/salesOverview" element={<SalesOverview/>}/>*/}
+		<Route exact path="/bookingOverview" element={<BookingOverview/>}/>
 		<Route exact path="/buildingOverview" element={<BuildingOverview/>}/>
-		<Route exact path="/unitOverview" element={<UnitOverview/>}/>
+		{/*<Route exact path="/unitOverview" element={<UnitOverview/>}/>*/}
 				</Routes>
 		</div>
 				{/*</Route>*/}

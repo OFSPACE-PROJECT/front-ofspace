@@ -49,25 +49,25 @@ function SidebarDashboard(props) {
 				{/*	</ListItemIcon>*/}
 				{/*	<ListItemText primary="Sales Overview" />*/}
 				{/*</ListItem>*/}
-				<ListItem button key="Building Overview" onClick={() => history('/dashboard/buildingOverview')}>
-					<ListItemIcon>
-						<LocationCityIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Building Overview" />
-				</ListItem>
-
-				{/*<ListItem button key="Unit Overview" onClick={() => history('/dashboard/unitOverview')}>*/}
-				{/*	<ListItemIcon>*/}
-				{/*		<CropSquareIcon/>*/}
-				{/*	</ListItemIcon>*/}
-				{/*	<ListItemText primary="Unit Overview" />*/}
-				{/*</ListItem>*/}
-				<ListItem button key="Booking Data" onClick={() => history('/dashboard/bookingOverview')}>
+				<ListItem button key="Complex Data" onClick={() => history('/dashboard/ofspace/complex')}>
 					<ListItemIcon>
 						<CropSquareIcon/>
 					</ListItemIcon>
-					<ListItemText primary="Booking Data" />
+					<ListItemText primary="Complex Data" />
 				</ListItem>
+				<ListItem button key="Accessibility Data" onClick={() => history('/dashboard/ofspace/access')}>
+					<ListItemIcon>
+						<CropSquareIcon/>
+					</ListItemIcon>
+					<ListItemText primary="Accessibility Data" />
+				</ListItem>
+				<ListItem button key="Facility Data" onClick={() => history('/dashboard/ofspace/facility')}>
+					<ListItemIcon>
+						<CropSquareIcon/>
+					</ListItemIcon>
+					<ListItemText primary="Facility Data" />
+				</ListItem>
+
 			</List>
 			<Divider />
 			<List>
