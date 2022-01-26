@@ -2,19 +2,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-// import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
@@ -49,19 +44,19 @@ function SidebarDashboard(props) {
 				{/*	</ListItemIcon>*/}
 				{/*	<ListItemText primary="Sales Overview" />*/}
 				{/*</ListItem>*/}
-				<ListItem button key="Complex Data" onClick={() => history('/dashboard/ofspace/complex')}>
+				<ListItem button key="Complex Data" onClick={() => history('/teamofspace/complex')}>
 					<ListItemIcon>
-						<CropSquareIcon/>
+						<LocationCityIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Complex Data" />
 				</ListItem>
-				<ListItem button key="Accessibility Data" onClick={() => history('/dashboard/ofspace/access')}>
+				<ListItem button key="Accessibility Data" onClick={() => history('/teamofspace/access')}>
 					<ListItemIcon>
-						<CropSquareIcon/>
+						<DonutLargeIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Accessibility Data" />
 				</ListItem>
-				<ListItem button key="Facility Data" onClick={() => history('/dashboard/ofspace/facility')}>
+				<ListItem button key="Facility Data" onClick={() => history('/teamofspace/facility')}>
 					<ListItemIcon>
 						<CropSquareIcon/>
 					</ListItemIcon>

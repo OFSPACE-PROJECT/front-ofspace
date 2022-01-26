@@ -1,6 +1,6 @@
-import {styled} from "@mui/styles";
+
 import {alpha} from "@mui/material/styles";
-import {InputBase, InputLabel, Select} from "@mui/material";
+import { Select} from "@mui/material";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +11,6 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
@@ -43,47 +42,6 @@ function createDataBooking(id, confirmed_name, phone, email, deal_date, booking_
 	};
 }
 
-const Search = styled('div')(({ theme }) => ({
-	position: 'relative',
-	borderRadius: theme.shape.borderRadius,
-	backgroundColor: alpha(theme.palette.common.white, 0.15),
-	'&:hover': {
-		backgroundColor: alpha(theme.palette.common.white, 0.25),
-	},
-	marginLeft: 0,
-	width: '100%',
-	[theme.breakpoints.up('sm')]: {
-		marginLeft: theme.spacing(1),
-		width: 'auto',
-	},
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-	padding: theme.spacing(0, 2),
-	height: '100%',
-	position: 'absolute',
-	pointerEvents: 'none',
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-	color: 'inherit',
-	'& .MuiInputBase-input': {
-		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-		transition: theme.transitions.create('width'),
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			width: '12ch',
-			'&:focus': {
-				width: '20ch',
-			},
-		},
-	},
-}));
 
 
 function descendingComparator(a, b, orderBy) {
@@ -189,7 +147,7 @@ const headCells = [
 
 function EnhancedTableHead(props) {
 	// const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-	const { order, orderBy, rowCount, onRequestSort } =
+	const { order, orderBy, onRequestSort } =
 		props;
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
@@ -273,19 +231,6 @@ const EnhancedTableToolbar = (props) => {
 			>
 				Booking Overview
 			</Typography>
-			{/*<Search>*/}
-			{/*	<SearchIconWrapper>*/}
-			{/*		<SearchIcon />*/}
-			{/*	</SearchIconWrapper>*/}
-			{/*	<StyledInputBase*/}
-			{/*		placeholder="Search by Name…"*/}
-			{/*		inputProps={{ 'aria-label': 'search' }}*/}
-			{/*		value={getSearch}*/}
-			{/*		onChange={(e)=>setSearch(e.target.value)}*/}
-
-			{/*	/>*/}
-			{/*</Search>*/}
-			{/*)}*/}
 		</Toolbar>
 	);
 };
@@ -368,6 +313,8 @@ export default function BookingOverview() {
 	const [bookingOne, setBookingOne] = React.useState([])
 	const user = useSelector((state) => state.persistedReducer?.user);
 
+	//id building perlu diganti
+
 	useEffect(() => {
 
 		const loadBooking = async () => {
@@ -380,7 +327,6 @@ export default function BookingOverview() {
 
 	var rows = bookings.map(booking => (createDataBooking(booking.id, booking.confirmed_name, booking.user.phone, booking.user.email, booking.deal_date,booking.booking_status, booking.payment_status, booking.unit.unit_type,booking.total_bought, booking.start_date, booking.end_date)));
 
-	const [rows2, setRows2] = useState(rows)
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
 		setOrder(isAsc ? 'desc' : 'asc');

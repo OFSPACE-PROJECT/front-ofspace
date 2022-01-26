@@ -2,21 +2,15 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-// import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
-import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import {Routes, useNavigate} from "react-router-dom";
@@ -43,26 +37,14 @@ function SidebarDashboard(props) {
 			<Toolbar />
 			<Divider />
 			<List>
-				{/*<ListItem button key="Sales Overview" onClick={() => history('/dashboard/salesOverview')}>*/}
-				{/*	<ListItemIcon>*/}
-				{/*		<MonetizationOnIcon/>*/}
-				{/*	</ListItemIcon>*/}
-				{/*	<ListItemText primary="Sales Overview" />*/}
-				{/*</ListItem>*/}
-				<ListItem button key="Building Overview" onClick={() => history('/dashboard/buildingOverview')}>
+				<ListItem button key="Building Overview" onClick={() => history('/supervisor/buildingOverview')}>
 					<ListItemIcon>
 						<LocationCityIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Building Overview" />
 				</ListItem>
 
-				{/*<ListItem button key="Unit Overview" onClick={() => history('/dashboard/unitOverview')}>*/}
-				{/*	<ListItemIcon>*/}
-				{/*		<CropSquareIcon/>*/}
-				{/*	</ListItemIcon>*/}
-				{/*	<ListItemText primary="Unit Overview" />*/}
-				{/*</ListItem>*/}
-				<ListItem button key="Booking Data" onClick={() => history('/dashboard/bookingOverview')}>
+				<ListItem button key="Booking Data" onClick={() => history('/supervisor/bookingOverview')}>
 					<ListItemIcon>
 						<CropSquareIcon/>
 					</ListItemIcon>

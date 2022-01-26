@@ -107,7 +107,7 @@ const headCells = [
 
 function EnhancedTableHead(props) {
 	// const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-	const { order, orderBy, rowCount, onRequestSort } =
+	const { order, orderBy, onRequestSort } =
 		props;
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
@@ -275,10 +275,6 @@ export default function UserData() {
 	const [isOn, toggleIsOn] = useToggle();
 	const [isEdit1, setEdit1] = React.useState(false);
 	const [isEdit2, setEdit2] = React.useState(false);
-	const [isEdit3, setEdit3] = React.useState(false);
-	const [isEdit4, setEdit4] = React.useState(false);
-	const [isEdit5, setEdit5] = React.useState(false);
-	const [isEdit6, setEdit6] = React.useState(false);
 	const [users, setUsers] = React.useState([])
 	const [userOne, setUserOne] = React.useState([])
 	const user = useSelector((state) => state.persistedReducer?.user);
@@ -353,6 +349,8 @@ export default function UserData() {
 
 	}
 
+	console.log("this user", users)
+
 	const handleUpdate1 = () => {
 
 		axios
@@ -368,7 +366,7 @@ export default function UserData() {
 			)
 			.then(function (response) {
 				console.log(response);
-				alert('update booking success');
+				alert('update user success');
 				// setLoading(false);
 			})
 			.catch(function (error) {
@@ -391,7 +389,7 @@ export default function UserData() {
 			)
 			.then(function (response) {
 				console.log(response);
-				alert('update booking success');
+				alert('update user success');
 				// setLoading(false);
 			})
 			.catch(function (error) {
@@ -449,11 +447,11 @@ export default function UserData() {
 													>
 														{row.id}
 													</TableCell>
-													<TableCell align="left" >{row.name}</TableCell>
+													<TableCell align="left" >{row.name.toUpperCase()}</TableCell>
 													<TableCell align="left" >{row.phone}</TableCell>
 													<TableCell align="left" >{row.email}</TableCell>
-													<TableCell align="left">{row.role}</TableCell>
-													<TableCell align="left">{row.admin_status}</TableCell>
+													<TableCell align="left">{row.role.toUpperCase()}</TableCell>
+													<TableCell align="left">{row.admin_status.toUpperCase()}</TableCell>
 													<TableCell ><Button variant="outlined"  id={row.id} onClick={(e)=>(handleEditClick(e))} style={{color:'white', borderColor:'white'}}>Edit</Button></TableCell>
 												</TableRow>
 											);

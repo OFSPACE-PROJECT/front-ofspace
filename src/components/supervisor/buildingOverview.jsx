@@ -13,86 +13,35 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import Button from "@mui/material/Button";
-import {styled} from "@mui/styles";
-import {InputBase, TextField} from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
-import EditIcon from '@mui/icons-material/Edit';
+import { Select, TextField} from "@mui/material";
 import {Fragment, useEffect, useRef} from "react";
 import useToggle from "../../costumHooks/useToggle";
 import axios from "axios";
 import {useSelector} from "react-redux";
-import { useGridApiRef, DataGridPro } from '@mui/x-data-grid-pro';
-import {login} from "../../store/userSlice";
 import storage from "../../services/firebase";
 import ModalPhoto from "./modalPhoto";
 import { v4 as uuidv4 } from 'uuid';
 import {Autocomplete} from "@mui/lab";
 import ModalPhotoInterior from "./modalPhotoInterior";
 import ModalPhotoFloor from "./modalPhotoFloor";
+import MenuItem from "@mui/material/MenuItem";
 
 
-function createData(name, building_id, unit_type, unit_id, total_unit, unit_remaining) {
+function createData(name, building_id, building_status, unit_type, unit_id, total_unit, unit_remaining) {
 	return {
 		name,
 		building_id,
+		building_status,
 		unit_type,
 		unit_id,
 		total_unit,
 		unit_remaining
 	};
 }
-
-
-const Search = styled('div')(({ theme }) => ({
-	position: 'relative',
-	borderRadius: theme.shape.borderRadius,
-	backgroundColor: alpha(theme.palette.common.white, 0.15),
-	'&:hover': {
-		backgroundColor: alpha(theme.palette.common.white, 0.25),
-	},
-	marginLeft: 0,
-	width: '100%',
-	[theme.breakpoints.up('sm')]: {
-		marginLeft: theme.spacing(1),
-		width: 'auto',
-	},
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-	padding: theme.spacing(0, 2),
-	height: '100%',
-	position: 'absolute',
-	pointerEvents: 'none',
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-	color: 'inherit',
-	'& .MuiInputBase-input': {
-		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-		transition: theme.transitions.create('width'),
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			width: '12ch',
-			'&:focus': {
-				width: '20ch',
-			},
-		},
-	},
-}));
 
 
 function descendingComparator(a, b, orderBy) {
@@ -139,6 +88,12 @@ const headCells = [
 		label: 'Building ID',
 	},
 	{
+		id: 'building_status',
+		numeric: false,
+		disablePadding: false,
+		label: 'Building Status',
+	},
+	{
 		id: 'unit_type',
 		numeric: false,
 		disablePadding: false,
@@ -168,7 +123,7 @@ const headCells = [
 
 function EnhancedTableHead(props) {
 	// const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-	const { order, orderBy, rowCount, onRequestSort } =
+	const { order, orderBy, onRequestSort } =
 		props;
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
@@ -344,13 +299,11 @@ export default function BuildingOverview(){
 	const [isInteriorOn, toggleInteriorOn] = useToggle();
 	const [isFloorOn, toggleFloorOn] = useToggle();
 	const [units, setUnits] = React.useState([])
-	const [unitId, setUnitId] = React.useState(0)
 	const [unitOne, setUnitOne] = React.useState([])
-	const apiRef = useGridApiRef();
-	const [selectedCellParams, setSelectedCellParams] = React.useState(null);
 	const user = useSelector((state) => state.persistedReducer?.user);
 	const [disable, setDisable] = React.useState(true);
 	const [isEditBuildingName, setEditBuildingName] = React.useState(false);
+	const [isEditBuildingStatus, setEditBuildingStatus] = React.useState(false);
 	const [isEditBuilding2, setEditBuilding2] = React.useState(false);
 	const [imageUrl, setImageUrl] = React.useState('');
 	const [selectedImage, setSelectedImage] = React.useState(null)
@@ -368,6 +321,7 @@ export default function BuildingOverview(){
 	const [isEditBuilding8, setEditBuilding8] = React.useState(false);
 	const [isEditBuilding9, setEditBuilding9] = React.useState(false);
 	const [isEditBuilding10, setEditBuilding10] = React.useState(false);
+	const [isEditBuilding12, setEditBuilding12] = React.useState(false);
 	const [isEdit1, setEdit1] = React.useState(false);
 	const [isEdit2, setEdit2] = React.useState(false);
 	const [isEdit3, setEdit3] = React.useState(false);
@@ -391,6 +345,7 @@ export default function BuildingOverview(){
 	const [open, setOpen] = React.useState(false);
 	const [openInterior, setOpenInterior] = React.useState(false);
 	const [openFloor, setOpenFloor] = React.useState(false);
+	const [thisUUID, setUUID] = React.useState('');
 	useEffect(() => {
 
 		const loadBuilding = async () => {
@@ -413,9 +368,7 @@ export default function BuildingOverview(){
 		loadGlobalFacilities()
 
 		}, []);
-
-	console.log("this token", user.token)
-	var rows = units.map(unit => (createData(buildings.name, buildings.id, unit.unit_type, unit.id, unit.total_unit, unit.remaining_unit)));
+	var rows = units.map(unit => (createData(buildings.name, buildings.id, buildings.building_status, unit.unit_type, unit.id, unit.total_unit, unit.remaining_unit)));
 
 
 	const handleRequestSort = (event, property) => {
@@ -423,51 +376,6 @@ export default function BuildingOverview(){
 		setOrder(isAsc ? 'desc' : 'asc');
 		setOrderBy(property);
 	};
-	const handleRequestSort2 = (event, property) => {
-		const isAsc = orderBy2 === property && order2 === 'asc';
-		setOrder2(isAsc ? 'desc' : 'asc');
-		setOrderBy2(property);
-	};
-
-	const handleSelectAllClick = (event) => {
-		if (event.target.checked) {
-			const newSelecteds = rows.map((n) => n.name);
-			setSelected(newSelecteds);
-			return;
-		}
-		setSelected([]);
-	};
-
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
-		let newSelected = [];
-
-		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
-		} else if (selectedIndex === 0) {
-			newSelected = newSelected.concat(selected.slice(1));
-		} else if (selectedIndex === selected.length - 1) {
-			newSelected = newSelected.concat(selected.slice(0, -1));
-		} else if (selectedIndex > 0) {
-			newSelected = newSelected.concat(
-				selected.slice(0, selectedIndex),
-				selected.slice(selectedIndex + 1),
-			);
-		}
-
-		setSelected(newSelected);
-	};
-
-
-	const handleCellClick = React.useCallback((params) => {
-		setSelectedCellParams(params);
-	}, []);
-
-	const handleDoubleCellClick = React.useCallback((params, event) => {
-		event.defaultMuiPrevented = true;
-	}, []);
-
-
 	const handleEditClick = (e) => {
 		toggleIsOn();
 
@@ -476,6 +384,12 @@ export default function BuildingOverview(){
 		setEditBuildingName(!isEditBuildingName)
 			const response = await axios.get(`http://3.142.49.13:8080/building/${buildings.id}`, { headers: {"Authorization" : `Bearer ${user.token}`} })
 			setBuildings(response.data?.data)
+
+	}
+	const handleEditBuildingStatus = async () => {
+		setEditBuildingStatus(!isEditBuildingStatus)
+		const response = await axios.get(`http://3.142.49.13:8080/building/${buildings.id}`, { headers: {"Authorization" : `Bearer ${user.token}`} })
+		setBuildings(response.data?.data)
 
 	}
 	const handleEditBuilding2 = async () => {
@@ -491,6 +405,11 @@ export default function BuildingOverview(){
 	}
 	const handleEditBuilding4 = async () => {
 		setEditBuilding4(!isEditBuilding4)
+		const response = await axios.get(`http://3.142.49.13:8080/building/${buildings.id}`, { headers: {"Authorization" : `Bearer ${user.token}`} })
+		setBuildings(response.data?.data)
+	}
+	const handleEditBuilding12 = async () => {
+		setEditBuilding12(!isEditBuilding12)
 		const response = await axios.get(`http://3.142.49.13:8080/building/${buildings.id}`, { headers: {"Authorization" : `Bearer ${user.token}`} })
 		setBuildings(response.data?.data)
 	}
@@ -608,9 +527,6 @@ export default function BuildingOverview(){
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
-	const handleChangePage2 = (event, newPage) => {
-		setPage2(newPage);
-	};
 
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
@@ -664,6 +580,30 @@ export default function BuildingOverview(){
 			.then(function (response) {
 				console.log(response);
 				setLoading(false);
+				alert("update building success");
+			})
+			.catch(function (error) {
+				setError(error);
+				setLoading(false);
+			});
+	}
+	const handleUpdateBuildingStatus = () => {
+
+		axios
+			.put(
+				`http://3.142.49.13:8080/building`,
+				{
+					id: buildings.id,
+					building_status: buildings.building_status,
+				},
+				{
+					headers:  {"Authorization" : `Bearer ${user.token}`}
+				}
+			)
+			.then(function (response) {
+				console.log(response);
+				setLoading(false);
+				alert("update building success");
 			})
 			.catch(function (error) {
 				setError(error);
@@ -713,6 +653,31 @@ export default function BuildingOverview(){
 				setLoading(false);
 			});
 	}
+
+
+	const handleUpdateBuildingFloorCount = () => {
+		axios
+			.put(
+				`http://3.142.49.13:8080/building`,
+				{
+					id: buildings.id,
+					floor_count: buildings.floor_count,
+				},
+				{
+					headers:  {"Authorization" : `Bearer ${user.token}`}
+				}
+			)
+			.then(function (response) {
+				console.log(response);
+				alert("update building success");
+				setLoading(false);
+			})
+			.catch(function (error) {
+				setError(error);
+				setLoading(false);
+
+			});
+	}
 	const handleUpdateBuildingSize = () => {
 		axios
 			.put(
@@ -727,11 +692,13 @@ export default function BuildingOverview(){
 			)
 			.then(function (response) {
 				console.log(response);
+				alert("update building success");
 				setLoading(false);
 			})
 			.catch(function (error) {
 				setError(error);
 				setLoading(false);
+
 			});
 	}
 	const handleUpdateBuildingLifts = () => {
@@ -770,6 +737,7 @@ export default function BuildingOverview(){
 	.then(function (response) {
 			console.log(response);
 			setLoading(false);
+		alert("update building success");
 		})
 			.catch(function (error) {
 				setError(error);
@@ -790,6 +758,7 @@ export default function BuildingOverview(){
 	)
 	.then(function (response) {
 			console.log(response);
+		alert("update building success");
 			setLoading(false);
 		})
 			.catch(function (error) {
@@ -810,8 +779,10 @@ export default function BuildingOverview(){
 				}
 	)
 	.then(function (response) {
+
 			console.log(response);
 			setLoading(false);
+		alert("update building success");
 		})
 			.catch(function (error) {
 				setError(error);
@@ -837,6 +808,7 @@ export default function BuildingOverview(){
 			.catch(function (error) {
 				setError(error);
 				setLoading(false);
+				alert("update building success");
 			});
 	}
 	const handleUpdateBuildingMainImage = () => {
@@ -860,6 +832,7 @@ export default function BuildingOverview(){
 	.then(function (response) {
 			console.log(response);
 			setLoading(false);
+		alert("update building success");
 		})
 			.catch(function (error) {
 				setError(error);
@@ -871,7 +844,7 @@ export default function BuildingOverview(){
 
 
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleCloseExteriorModal = () => setOpen(false);
 
 	const handleOpenInterior = () => setOpenInterior(true);
 	const handleOpenFloor = () => setOpenFloor(true);
@@ -925,7 +898,7 @@ export default function BuildingOverview(){
 
 
 	const handleCreateExterior = async () => {
-		const thisId = uuidv4();
+		const thisId=uuidv4()
 		let reqFirebase = `/images/building/${buildings.id}/exterior/${thisId}`
 		if(selectedExteriorImage == null)
 			return;
@@ -947,17 +920,18 @@ export default function BuildingOverview(){
 			});
 		setSelectedExteriorImage(null)
 		setDescriptionExterior('')
+		setUUID('')
 	}
 
 	const handleCreateInterior = async () => {
-		const thisId = uuidv4();
+		const thisId=uuidv4()
 		let reqFirebase = `/images/unit/${unitOne.id}/interior/${thisId}`
 		if(selectedInteriorImage == null)
 			return alert('not image selected');
 		storage.ref(reqFirebase).put(selectedInteriorImage)
 			.on("state_changed" , alert("success upload image") , alert);
 		let imageFromFirebase = `https://firebasestorage.googleapis.com/v0/b/ofspace-project.appspot.com/o/images%2Funit%2F${unitOne?.id}%2Finterior%2F${thisId}?alt=media&token=62809c58-ff5a-4f54-a813-9b42b18364fe`
-		const response = await axios.post(`http://3.142.49.13:8080/building/exterior`, {
+		const response = await axios.post(`http://3.142.49.13:8080/unit/interior`, {
 			unit_id: unitOne.id,
 			photo_url: imageFromFirebase,
 			description : descriptionInterior
@@ -968,20 +942,26 @@ export default function BuildingOverview(){
 		})
 			.catch(function (error) {
 				setError(error);
+				alert("failed create interior photo")
 				setLoading(false);
 			});
 		setSelectedInteriorImage(null)
 		setDescriptionInterior('')
+		setUUID('')
 	}
 	const handleCreateFloor = async () => {
 		const thisId = uuidv4();
+		console.log("thisId cek", thisId)
 		let reqFirebase = `/images/building/${buildings.id}/floor/${thisId}`
+		console.log("thisId cek 2", thisId)
 		if(selectedFloorImage == null)
 			return alert('not image selected');
 		storage.ref(reqFirebase).put(selectedFloorImage)
 			.on("state_changed" , alert("success upload image") , alert);
+
 		let imageFromFirebase = `https://firebasestorage.googleapis.com/v0/b/ofspace-project.appspot.com/o/images%2Fbuilding%2F${buildings?.id}%2Ffloor%2F${thisId}?alt=media&token=62809c58-ff5a-4f54-a813-9b42b18364fe`
-		const response = await axios.post(`http://3.142.49.13:8080/building/exterior`, {
+		console.log("thisId cek 3", thisId)
+		const response = await	axios.post(`http://3.142.49.13:8080/building/floor`, {
 			building_id: buildings.id,
 			photo_url: imageFromFirebase,
 			description : descriptionFloor
@@ -993,14 +973,16 @@ export default function BuildingOverview(){
 			.catch(function (error) {
 				setError(error);
 				setLoading(false);
+				alert("failed input floor photo")
 			});
+		console.log("thisId cek 4", thisId)
 		setSelectedFloorImage(null)
 		setDescriptionFloor('')
 	}
 
 	const handleGetBuildingFacilities = async () => {
 		const response = await axios.get(`http://3.142.49.13:8080/building/${buildings.id}/facility`)
-		if (response.data?.data?.building_facilities === null) {
+		if (response.data?.data?.building_facilities === undefined) {
 			return alert("Tidak ada fasilitas di building ini, harap tambahkan fasilitas")
 		} else {
 		 setBuildingFacilities(response.data?.data?.building_facilities)
@@ -1010,7 +992,7 @@ export default function BuildingOverview(){
 
 	const handleGetUnitFacilities = async () => {
 		const response = await axios.get(`http://3.142.49.13:8080/unit/${unitOne.id}/facility`)
-		if (response.data?.data?.unit_facilities === null ) {
+		if (response.data?.data?.unit_facilities === undefined ) {
 			return alert("Tidak ada fasilitas di unit ini, harap tambahkan fasilitas")
 		} else {
 		 setUnitFacilities(response.data?.data?.unit_facilities)
@@ -1036,7 +1018,6 @@ export default function BuildingOverview(){
 				setError(error);
 				setLoading(false);
 			})
-	handleGetBuildingFacilities()
 		setAddFacility('')
 	}
 
@@ -1058,13 +1039,16 @@ export default function BuildingOverview(){
 	}
 
 	const handleAddUnitFacility = () => {
-		let thisAddId
+		let thisAddId2
 		for (let i = 0; i < globalFacilities.length; i++) {
-			if (addFacilityUnit === globalFacilities[i].name) {
-				thisAddId = globalFacilities[i].id
+			console.log("cek global", globalFacilities[i].name)
+			console.log("cek added", addFacilityUnit)
+			if (addFacilityUnit == globalFacilities[i].name) {
+				thisAddId2 = globalFacilities[i].id
 			}
 		}
-		axios.post(`http://3.142.49.13:8080/unit/facility`, null, { headers: {"Authorization" : `Bearer ${user.token}`}, params:{"building_id":`${unitOne.id}`, "facility_id":`${thisAddId}`} }).then(function (response) {
+		console.log("cek facility ID", thisAddId2)
+		axios.post(`http://3.142.49.13:8080/unit/facility`, null, { headers: {"Authorization" : `Bearer ${user.token}`}, params:{"building_id":`${unitOne.id}`, "facility_id":`${thisAddId2}`} }).then(function (response) {
 			console.log(response);
 			setLoading(false);
 			alert("success add facility")
@@ -1073,7 +1057,6 @@ export default function BuildingOverview(){
 				setError(error);
 				setLoading(false);
 			})
-		handleGetUnitFacilities()
 		setAddFacilityUnit('')
 
 	}
@@ -1234,6 +1217,7 @@ export default function BuildingOverview(){
 														{row.name}
 													</TableCell>
 													<TableCell align="right">{row.building_id}</TableCell>
+													<TableCell align="right">{row.building_status}</TableCell>
 													<TableCell align="right" className={row.unit_type}>{row.unit_type}</TableCell>
 													<TableCell align="right" >{row.unit_id}</TableCell>
 													<TableCell align="right">{row.total_unit}</TableCell>
@@ -1286,10 +1270,7 @@ export default function BuildingOverview(){
 										{/*<TableCell>{buildings.name}</TableCell>*/}
 										{isEditBuildingName === true ?
 											<TableCell>
-											<input
-												value={buildings.name}
-												name="name"
-												onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} label="Name" variant="outlined" name="name" value={buildings.name}/>
 										</TableCell>
 											 : <TableCell>{buildings.name}</TableCell>}
 										{isEditBuildingName === false ?
@@ -1298,6 +1279,31 @@ export default function BuildingOverview(){
 											:
 										<Fragment><TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleEditBuildingName}>Cancel</Button></TableCell>
 										<TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={() => { handleEditBuildingName(); handleUpdateBuildingName();}}>Save</Button></TableCell></Fragment>}
+									</TableRow>
+									<TableRow>
+										<TableCell variant="head">Building Status</TableCell>
+										{/*<TableCell>{buildings.name}</TableCell>*/}
+										{isEditBuildingStatus === true ?
+											<TableCell>
+												<Select
+													labelId="demo-simple-select-label"
+													id="demo-simple-select"
+													value={buildings.building_status}
+													label="Set Status"
+													name="building_status"
+													onChange={(e)=> handleInputChange(e)}
+												>
+													<MenuItem value="verified">Verified</MenuItem>
+													<MenuItem value="unverified">Unverified</MenuItem>
+												</Select>
+											</TableCell>
+											: <TableCell>{buildings.building_status}</TableCell>}
+										{isEditBuildingStatus === false ?
+											<Fragment><TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleEditBuildingStatus}>Edit</Button></TableCell>
+												<TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleRefreshData}>Refresh</Button></TableCell> </Fragment>
+											:
+											<Fragment><TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleEditBuildingStatus}>Cancel</Button></TableCell>
+												<TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={() => { handleEditBuildingStatus(); handleUpdateBuildingStatus();}}>Save</Button></TableCell></Fragment>}
 									</TableRow>
 									<TableRow>
 										<TableCell variant="head">Building Photo</TableCell>
@@ -1338,12 +1344,7 @@ export default function BuildingOverview(){
 										<TableCell variant="head">Description</TableCell>
 										{isEditBuilding3 === true ?
 											<TableCell>
-												<textarea
-													value={buildings.description}
-													name="description"
-													rows="4"
-													cols="80"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} sx={{width:"500px"}} multiline rows={4} label="Description" variant="outlined" name="description" value={buildings.description}/>
 											</TableCell>
 											: <TableCell>{buildings.description}</TableCell>}
 										{isEditBuilding3 === false ?
@@ -1358,11 +1359,7 @@ export default function BuildingOverview(){
 										<TableCell variant="head">Building Size</TableCell>
 										{isEditBuilding4 === true ?
 											<TableCell>
-												<input
-													value={buildings.building_size}
-													name="building_size"
-													type="number"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField type="number" onChange={(e) => handleInputChange(e)} label="Building Size" variant="outlined" name="building_size" value={buildings.building_size}/>
 											</TableCell>
 											: <TableCell>{buildings.building_size}</TableCell>}
 										{isEditBuilding4 === false ?
@@ -1372,16 +1369,27 @@ export default function BuildingOverview(){
 											<Fragment><TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleEditBuilding4}>Cancel</Button></TableCell>
 												<TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={() => { handleEditBuilding4(); handleUpdateBuildingSize();}}>Save</Button></TableCell></Fragment>}
 									</TableRow>
+									<TableRow>
+
+										<TableCell variant="head">Floor Count</TableCell>
+										{isEditBuilding12 === true ?
+											<TableCell>
+												<TextField type="number" onChange={(e) => handleInputChange(e)} label="Floor Count" variant="outlined" name="floor_count" value={buildings.floor_count}/>
+											</TableCell>
+											: <TableCell>{buildings.floor_count}</TableCell>}
+										{isEditBuilding12 === false ?
+											<Fragment><TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleEditBuilding12}>Edit</Button></TableCell>
+												<TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleRefreshData}>Refresh</Button></TableCell></Fragment>
+											:
+											<Fragment><TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={handleEditBuilding12}>Cancel</Button></TableCell>
+												<TableCell ><Button variant="outlined" 	style={{color:'white', borderColor:'white'}} onClick={() => { handleEditBuilding12(); handleUpdateBuildingFloorCount();}}>Save</Button></TableCell></Fragment>}
+									</TableRow>
 
 									<TableRow>
 										<TableCell variant="head">Average Floor Plate</TableCell>
 										{isEditBuilding5 === true ?
 											<TableCell>
-												<input
-													value={buildings.average_floor_size}
-													name="average_floor_size"
-													type="number"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} type="number" label="Average Floor Size" variant="outlined" name="average_floor_size" value={buildings.average_floor_size}/>
 											</TableCell>
 											: <TableCell>{buildings.average_floor_size}</TableCell>}
 										{isEditBuilding5 === false ?
@@ -1394,10 +1402,7 @@ export default function BuildingOverview(){
 										<TableCell variant="head">Office Hours</TableCell>
 										{isEditBuilding6 === true ?
 											<TableCell>
-												<input
-													value={buildings.office_hours}
-													name="office_hours"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} label="Office Hours" variant="outlined" name="office_hours" value={buildings.office_hours}/>
 											</TableCell>
 											: <TableCell>{buildings.office_hours}</TableCell>}
 										{isEditBuilding6 === false ?
@@ -1410,10 +1415,7 @@ export default function BuildingOverview(){
 										<TableCell variant="head">Parking</TableCell>
 										{isEditBuilding7 === true ?
 											<TableCell>
-												<input
-													value={buildings.parking}
-													name="parking"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} label="Parking" variant="outlined" name="parking" value={buildings.parking}/>
 											</TableCell>
 											: <TableCell>{buildings.parking}</TableCell>}
 										{isEditBuilding7 === false ?
@@ -1426,10 +1428,7 @@ export default function BuildingOverview(){
 										<TableCell variant="head">Toilets</TableCell>
 										{isEditBuilding8 === true ?
 											<TableCell>
-												<input
-													value={buildings.toilets}
-													name="toilets"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} multiline rows={3} label="Toilets" variant="outlined" name="toilets" value={buildings.toilets}/>
 											</TableCell>
 											: <TableCell>{buildings.toilets}</TableCell>}
 										{isEditBuilding8 === false ?
@@ -1443,10 +1442,7 @@ export default function BuildingOverview(){
 										<TableCell variant="head">Lifts</TableCell>
 										{isEditBuilding9 === true ?
 											<TableCell>
-												<input
-													value={buildings.lifts}
-													name="lifts"
-													onChange={(e) => handleInputChange(e)}/>
+												<TextField onChange={(e) => handleInputChange(e)} multiline rows={3} label="Lifts" variant="outlined" name="lifts" value={buildings.lifts}/>
 											</TableCell>
 											: <TableCell>{buildings.lifts}</TableCell>}
 										{isEditBuilding9 === false ?
@@ -1605,7 +1601,7 @@ export default function BuildingOverview(){
 					/>
 				</Box>
 			</div> : null}
-			{isExteriorOn ? <ModalPhoto open={open} exterior={exterior} setExterior={setExterior} building={buildings} handleClose={handleClose}/> : null}
+			{isExteriorOn ? <ModalPhoto open={open} exterior={exterior} setExterior={setExterior} building={buildings} handleClose={handleCloseExteriorModal}/> : null}
 			{isAddOn? <Box display='flex' mb={10}>
 
 						<input
@@ -1636,7 +1632,7 @@ export default function BuildingOverview(){
 					cols="50"
 					onChange={(e) => setDescriptionExterior(e.target.value)}/>
 					<Box>
-						<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={handleCloseExterior}>Cancel</Button>
+						<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={handleCloseExterior}>Cancel/Close</Button>
 					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={()=>handleCreateExterior()}>Save</Button></Box>
 			</Box>: null}
 			{isAddFloor ? <Box display='flex' mb={10}>
@@ -1654,34 +1650,33 @@ export default function BuildingOverview(){
 						Add or Change Image
 					</Button>
 				</label>
-				{/*{selectedImage? <Button variant="contained" endIcon={<PreviewIcon fontSize="small" />} onClick={toggleImageOn}>Preview</Button> : null}*/}
+
 				{selectedFloorImage ? (
 					<Box mt={2} textAlign="center">
 						<img src={URL.createObjectURL(selectedFloorImage)} alt="added exterior image" height="400px" width="400px"/>
 					</Box>
 				) : null }
-				<TextField
+				<textarea
 					value={descriptionFloor}
 					name="description"
 					required
-					multiline
-					rows={4}
+					rows="2"
 					placeholder="Fill description for photo"
+					cols="50"
 					onChange={(e) => setDescriptionFloor(e.target.value)}/>
 				<Box>
-					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={handleCloseFloor}>Cancel</Button>
+					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={handleCloseFloor}>Cancel/Close</Button>
 					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={()=>handleCreateFloor()}>Save</Button></Box>
 			</Box>: null}
 			{isOnUnit ?
 				(<div style={{marginTop:"3%", width:"90%", marginRight:"5%"}}>
 					<Box sx={{ width: '100%' }}>
 						<Paper sx={{ width: '100%', mb: 2 }}>
-							{/*<EnhancedTableToolbar numSelected={selected.length} />*/}
 							<TableContainer>
 								<Table sx={{ minWidth: 750 }}
 									   aria-labelledby="tableTitle"
 									   size={dense ? 'small' : 'medium'}>
-									{/*<div style={{ height: 400, width: '100%' }}>*/}
+
 
 									<TableRow>
 										<TableCell variant="head">Unit Type</TableCell>
@@ -1766,7 +1761,7 @@ export default function BuildingOverview(){
 
 					</Box>)
 				</div> ): null}
-			{isInteriorOn ? <ModalPhotoInterior open={openInterior} interior={interior} setInterior={setInterior} unit={unitOne} handleClose={handleCloseInteriorModal}/> : null}
+			{isInteriorOn ? <ModalPhotoInterior open={openInterior} setOpen={setOpenInterior} handleClose={handleCloseInteriorModal} interior={interior} setInterior={setInterior} unit={unitOne}/> : null}
 			{isFloorOn ? <ModalPhotoFloor open={openFloor} floor={floor} setFloor={setFloor} unit={buildings} handleClose={handleCloseFloorModal}/> : null}
 			{isAddInterior ? <Box display='flex' mb={10}>
 
@@ -1789,16 +1784,16 @@ export default function BuildingOverview(){
 						<img src={URL.createObjectURL(selectedInteriorImage)} alt="added exterior image" height="400px" width="400px"/>
 					</Box>
 				) : null }
-				<TextField
+				<textarea
 					value={descriptionInterior}
 					name="description"
 					required
-					multiline
-					rows={4}
+					rows="2"
 					placeholder="Fill description for photo"
+					cols="50"
 					onChange={(e) => setDescriptionInterior(e.target.value)}/>
 				<Box>
-					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={handleCloseInterior}>Cancel</Button>
+					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={handleCloseInterior}>Cancel/Close</Button>
 					<Button variant="outlined" 	style={{color:'black', borderColor:'white'}} onClick={()=>handleCreateInterior()}>Save</Button></Box>
 			</Box>: null}
 
@@ -1820,7 +1815,8 @@ export default function BuildingOverview(){
 						options={globalFacilities.map((option) => option.name)}
 						renderInput={(params) => (
 							<TextField
-								// onClick={e => loadComplexes()}
+								onClick={e => setAddFacilityUnit(e.target.value)}
+								onChange={e => setAddFacilityUnit(e.target.value)}
 								onSelect={e => setAddFacilityUnit(e.target.value)}
 								{...params}
 								value={addFacilityUnit}
