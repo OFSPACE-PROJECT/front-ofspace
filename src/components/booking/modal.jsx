@@ -8,11 +8,15 @@ export default function ModalChat(props) {
   const [error, setError] = useState(false);
   const [booking, setBooking] = useState({});
   const [review, setReview] = useState(false);
-  let params = { building: booking.building_id, unit: booking.unit_id, booking: booking.id };
+  let params = {
+    building: booking.building_id,
+    unit: booking.unit_id,
+    booking: booking.id,
+  };
   const navigate = useNavigate();
   const navigateReview = () => {
     navigate({
-      pathname: '/review',
+      pathname: "/review",
       search: `?${createSearchParams(params)}`,
     });
   };

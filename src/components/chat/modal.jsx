@@ -14,7 +14,7 @@ export default function ModalChat(props) {
         sx={{
           color: "white",
           bgcolor: "#508BAE",
-          position: "absolute",
+          position: "fixed",
           bottom: 16,
           right: 16,
         }}

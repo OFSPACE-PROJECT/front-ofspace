@@ -194,7 +194,11 @@ export default function Profil(props) {
               </Box>
             </Box>
             <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-              <Button onClick={handleOpen} variant="contained" color="primary">
+              <Button
+                onClick={handleOpen}
+                variant="contained"
+                color="secondary"
+              >
                 Log Out
               </Button>
               <Modal
@@ -224,7 +228,7 @@ export default function Profil(props) {
                     <Button
                       onClick={logoutHandler}
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       sx={{ mt: 2 }}
                     >
                       Yes
@@ -232,7 +236,7 @@ export default function Profil(props) {
                     <Button
                       onClick={handleClose}
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       sx={{ mt: 2 }}
                     >
                       Cancel

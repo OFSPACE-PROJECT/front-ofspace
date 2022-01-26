@@ -126,7 +126,7 @@ export default function ModalChat(props) {
             color="secondary"
             value={sqm}
             onChange={(e) => setSqm(e.target.value)}
-            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -142,7 +142,7 @@ export default function ModalChat(props) {
             value={desk}
             onChange={(e) => setDesk(e.target.value)}
             color="secondary"
-            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
             InputLabelProps={{
               shrink: true,
             }}

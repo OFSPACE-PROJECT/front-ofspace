@@ -119,6 +119,7 @@ export default function Login() {
             margin="normal"
             required
             fullWidth
+            type="password"
             name="password"
             label="Password"
             value={password}

@@ -6,9 +6,9 @@ import ChatIcon from "@mui/icons-material/Chat";
 
 export default function ConsultanChat(props) {
   const chat = props.chat;
-  console.log (props.index)
+  console.log(props.index);
   const id = props.index;
-  console.log (id)
+  console.log(id);
   const dateFormatter = new Intl.DateTimeFormat("id", {
     day: "numeric",
     month: "long",
@@ -46,12 +46,20 @@ export default function ConsultanChat(props) {
         {!props.user && (
           <>
             <TableCell align="center">
-              <IconButton variant="contained" onClick={(e) =>props.ChatModal(e, id)}>
+              <IconButton
+                variant="contained"
+                color="secondary"
+                onClick={(e) => props.ChatModal(e, id)}
+              >
                 <ChatIcon />
               </IconButton>
             </TableCell>
             <TableCell align="center">
-              <Button variant="contained" onClick={(e) =>props.Finish(e, chat.id)}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={(e) => props.Finish(e, chat.id)}
+              >
                 Finish
               </Button>
             </TableCell>
