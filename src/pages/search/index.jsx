@@ -41,7 +41,7 @@ export default function Home() {
       <Box
         sx={{
           display: "flex",
-          gap: "5%",
+          gap: "2%",
           justifyContent: "center",
           flexWrap: "wrap",
           alignItems:"center",

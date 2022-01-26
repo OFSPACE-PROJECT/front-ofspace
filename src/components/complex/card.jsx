@@ -22,13 +22,13 @@ export default function ComplexCard(props) {
     navigate(`/complex/${props.complex.id}`);
   };
   return (
-    <Card sx={{ maxWidth: "500px"}}>
+    <Card sx={{ maxWidth: "400px"}}>
       <CardActionArea onClick={OnClick} >
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardMedia
             component="img"
-            height="200"
-            sx={{width: "250px"}}
+            height="250"
+            sx={{width: "400px"}}
             src={image}
             alt="Building Picture"
           />
