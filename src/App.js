@@ -6,11 +6,19 @@ import Chat from "./components/chat/modal";
 import User from "./pages/user/customer";
 import Consultan from "./pages/user/consultan";
 import MainConsultan from "./pages/consultan";
+import DetailBuilding from "./pages/detailBuilding";
+import Sa from "./pages/dashboard/dashboardSuperadmin";
+import Sv from "./pages/dashboard/dashboardSupervisor";
+import To from "./pages/dashboard/dashboardOfspace";
 import Home from "./pages/home";
 import Search from "./pages/search";
 import Review from "./pages/review";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PrivateRoute from "./route/private";
+import ConsultanRoute from "./route/consultan";
+import SvRoute from "./route/supervisor";
+import SaRoute from "./route/superadmin";
+import ToRoute from "./route/teamofspace";
 import Profile from "./components/user/profil";
 import Booking from "./components/booking/listBooking";
 import FormBooking from "./components/booking/form";
@@ -102,10 +110,10 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <Router>
-        <AxiosConfig/>
+        <AxiosConfig />
         <div className="App">
           <Nav />
-          {(loading || loadingAllChat) ? (
+          {loading || loadingAllChat ? (
             <Box
               sx={{
                 width: "100vw",
@@ -119,7 +127,7 @@ function App() {
                 style={{ width: "200px", height: "200px", color: "#white" }}
               />
             </Box>
-          ): (
+          ) : (
             <>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -142,7 +150,7 @@ function App() {
                   </Route>
                 </Route>
                 <Route path="review" element={<Review user={user} />} />
-                <Route path="/consultan" element={<PrivateRoute />}>
+                <Route path="/consultan" element={<ConsultanRoute />}>
                   <Route path="" element={<Consultan />}>
                     <Route
                       index
@@ -155,6 +163,10 @@ function App() {
                       }
                     />
                     <Route
+                      path="building/:id"
+                      element={<DetailBuilding user={user} />}
+                    />
+                    <Route
                       path="booking/:id"
                       element={<FormBooking user={user} />}
                     />
@@ -162,6 +174,15 @@ function App() {
                       path="profil"
                       element={<Profile user={user} setLoading={setLoading} />}
                     />
+                  </Route>
+                  <Route path="/superadmin" element={<SaRoute />}>
+                    <Route path="" element={<Sa />} />
+                  </Route>
+                  <Route path="/supervisor" element={<SvRoute />}>
+                    <Route path="" element={<Sv />} />
+                  </Route>
+                  <Route path="/teamofspace" element={<ToRoute />}>
+                    <Route path="" element={<To />} />
                   </Route>
                 </Route>
               </Routes>

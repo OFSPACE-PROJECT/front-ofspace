@@ -16,14 +16,14 @@ export default function ModalChat(props) {
   const [date, setDate] = React.useState(new Date());
   const { InsertMessage } = useInsertMessage();
   const { InsertChat, chat, loadingInsertChat } = useInsertChat();
-  const { allChat, loadingAllChat } = useSubscriptionChat(user);
+  const { allChat } = useSubscriptionChat(user);
 
   const onClick = () => {
     if (props.unit.unit_type === "office") {
     setValue(user.name + "," + props.building.name + "," + props.unit.unit_type + "," + sqm + "sqm" + "," + date);
     console.log(value);
     } else {
-    setValue(props.name + "," + props.unit.unit_type + "," + desk + "," + "desk" + "," + date);
+    setValue(user.name + "," + props.unit.unit_type + "," + desk + "desk" + "," + date);
     }
   };
   useEffect(() => {
