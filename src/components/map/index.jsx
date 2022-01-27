@@ -11,7 +11,6 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -22,11 +21,6 @@ L.Icon.Default.mergeOptions({
 });
 
 function MyMap(props) {
-  const navigate = useNavigate();
-  const OnClick = () => {
-    navigate(`/building/${props.building.id}`);
-  };
-
   const [acces, setAcces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -58,7 +52,6 @@ function MyMap(props) {
   console.log(acces);
   console.log(parseFloat(props.complex.latitude));
 
-  //   const position = [-6.363546665107201, 106.8343931329238];
   return (
     <MapContainer
       center={[
@@ -67,15 +60,15 @@ function MyMap(props) {
       ]}
       zoom={13}
       scrollWheelZoom={false}
-      style={{ height: "75vh", width: "70vw" }}
+      style={{ height: "70vh", width: "70vw" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Marker position={[props.complex.latitude, props.complex.longitude]}>
-        <Popup onClick={OnClick}>
-          A pretty CSS3 popup. <br /> Easily customizable.
+        <Popup>
+        {props.complex.name}
         </Popup>
       </Marker>
       {!error & !loading & ((acces?.length !== 0) & (acces !== null)) &&

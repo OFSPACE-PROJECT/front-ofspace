@@ -33,7 +33,7 @@ export default function ModalChat(props) {
         console.log(response);
         if (response.data.data != null) {
           setBooking(response.data.data);
-          if (response.data.data.booking_status === "deal") {
+          if (response.data.data.booking_status === "rented") {
             setReview(true);
           }
         } else {
