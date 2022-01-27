@@ -91,7 +91,7 @@ export default function DetailBuildingMain(props) {
 				)}
 			</div>
 			</div>
-				<ModalChat buildings={buildingData}/>
+				<ModalChat building={buildingData} unit={buildingData.unit[unitId]} unit_id={unitId}/>
 			</div>
 			<ListReview user={user} unit_id={unitId}/>
 		</Fragment>
