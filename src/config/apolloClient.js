@@ -27,7 +27,7 @@ const httpLink = new HttpLink({
     connectionParams: {
       headers: {
         "x-hasura-admin-secret":
-        process.env.HASURA_SECRET,
+        "Daj8prjrvFmrRIYAzfVVzLP59QIPyj34lCP8oztQwHr1uWb6H7oWA0bAVZjcxOj6",
       },
     },
   },
