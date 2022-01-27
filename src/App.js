@@ -176,13 +176,13 @@ function App() {
                     />
                   </Route>
                   <Route path="/superadmin" element={<SaRoute />}>
-                    <Route path="" element={<Sa />} />
+                    {/* <Route path="" element={<Sa />} /> */}
                   </Route>
                   <Route path="/supervisor" element={<SvRoute />}>
-                    <Route path="" element={<Sv />} />
+                    {/* <Route path="" element={<Sv />} /> */}
                   </Route>
                   <Route path="/teamofspace" element={<ToRoute />}>
-                    <Route path="" element={<To />} />
+                    {/* <Route path="" element={<To />} /> */}
                   </Route>
                 </Route>
               </Routes>
