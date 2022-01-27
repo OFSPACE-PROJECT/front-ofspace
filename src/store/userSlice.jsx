@@ -5,6 +5,7 @@ const userSlice = createSlice({
   initialState: {
     id: "",
     role : "",
+    name : "",
     status : "",
     token : ""
   },
@@ -13,6 +14,7 @@ const userSlice = createSlice({
       const userData = action.payload;
       console.log(userData);
       state.id = userData.id;
+      state.name = userData.name;
       state.role = userData.role;
       state.status = userData.status;
       state.token = userData.token;
@@ -21,6 +23,7 @@ const userSlice = createSlice({
     logout: (state) => {
       console.log(state);
       state.id = "";
+      state.name = "";
       state.role = "";
       state.status = "";
       state.token = "";
