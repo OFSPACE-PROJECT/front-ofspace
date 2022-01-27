@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from "react";
 import axios from "axios";
 import BannerBuilding from "./banner";
 import DescriptionBuilding from "./description";
-import ModalChat from "../chat/modal";
+import ModalChat from "../booking/detailPage";
 import Card from "@mui/material/Card";
 import BuildingInformation from "./buildingInformation";
 import DetailPhoto from "./detailPhoto";
@@ -13,8 +13,10 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {Alert, MenuItem} from "@mui/material";
 import {useSelector} from "react-redux";
 import Typography from "@mui/material/Typography";
+import BuildingReview from "../review/detailBuilding";
+import ListReview from "./listReview";
 
-export default function DetailBuilding(props) {
+export default function DetailBuildingMain(props) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [buildingData, setBuildingData] = useState([]);
@@ -27,7 +29,7 @@ export default function DetailBuilding(props) {
 
 		axios
 			// .get(`${process.env.REACT_APP_BASE_URL}/building/${id}`, {
-			.get(`${process.env.REACT_APP_BASE_URL}/building/9`, {
+			.get(`${process.env.REACT_APP_BASE_URL}/building/${id}`, {
 				headers: {
 					accept: "*/*",
 					"Content-Type": "application/json",
@@ -63,12 +65,13 @@ export default function DetailBuilding(props) {
 		<Fragment>
 
 		<BannerBuilding setUnitId={setUnitId} isLoading={isLoading} buildingData={buildingData} name={buildingData.name} image_url={buildingData.image_url} />
+			<div style={{display: 'flex'}}>
+			<div>
 			<DescriptionBuilding description={buildingData.description}/>
 			<BuildingInformation buildingData={buildingData}/>
 			<div style={{display: 'flex'}}>
 				{!isLoading && unitId!== 0 && <DetailFacility user={user} id={buildingData.id} unit_id={unitId}/>}
 				{!isLoading && unitId !== 0 && <DetailPhoto user={user} id={buildingData.id} unit_id={unitId}/>}
-				<ModalChat building={buildingData} unit={unitData}/>
 				{isLoading && (
 					<Box>
 						<LoadingButton
@@ -87,6 +90,10 @@ export default function DetailBuilding(props) {
 					</Alert>
 				)}
 			</div>
+			</div>
+				<ModalChat building={buildingData} unit={buildingData.unit[unitId]} unit_id={unitId}/>
+			</div>
+			<ListReview user={user} unit_id={unitId}/>
 		</Fragment>
 	)
 }
