@@ -105,7 +105,7 @@ function App() {
         <AxiosConfig/>
         <div className="App">
           <Nav />
-          {(loading || loadingAllChat) && (
+          {(loading || loadingAllChat) ? (
             <Box
               sx={{
                 width: "100vw",
@@ -119,8 +119,7 @@ function App() {
                 style={{ width: "200px", height: "200px", color: "#white" }}
               />
             </Box>
-          )}
-          {!loading && (
+          ): (
             <>
               <Routes>
                 <Route path="/" element={<Home />} />
